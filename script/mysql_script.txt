@@ -1,0 +1,211 @@
+drop database if exists stock;
+
+create database stock;
+
+use stock;
+
+DROP TABLE stock_raw_data;
+CREATE TABLE stock_raw_data
+( 
+ stock_index varchar(6) not null,
+ date     date not null,
+ open     float not null, 
+ high     float not null,
+ low      float not null,
+ close    float not null,
+ volume   double  not null,
+ turnover double  not null,
+ PRIMARY KEY(stock_index,date)
+);
+
+
+DROP TABLE stock_ma_macd;
+
+CREATE TABLE stock_ma_macd
+( 
+ stock_index varchar(6) not null,
+ date     date   not null,
+ ma2      float  not null,
+ ma3      float  not null,
+ ma5      float  not null,
+ ma8      float  not null,
+ ma10     float  not null,
+ ma13     float  not null,
+ ma20     float  not null,
+ ma21     float  not null,
+ ma30     float  not null, 
+ ma34     float  not null, 
+ ma55     float  not null,
+ ma60     float  not null,
+ ma89     float  not null,
+ ma120    float  not null, 
+ ema12    float  not null,
+ ema26    float  not null,
+ diff     float  not null,
+ dea      float  not null,
+ bar      float  not null,
+ PRIMARY KEY(stock_index,date)
+);
+
+DROP TABLE stock_ma_rate;
+create table stock_ma_rate
+(
+ stock_index varchar(6) not null,
+ profit_rate   float not null,
+ ma_buy   int   not null, 
+ ma_sell  int   not null, 
+ start_date date  not null, 
+ end_date   date  not null,
+ buy_count  int   not null, 
+ sell_count int   not null, 
+ win_times  int   not null, 
+ lose_times int   not null,
+ win_rate float not null,
+ max_single_win_rate float not null, 
+ max_rate_buy_date  date,
+ max_rate_sell_date date, 
+ max_single_lose_rate float not null,
+ max_lose_rate_buy_date  date,
+ max_lose_rate_sell_date date,
+ PRIMARY KEY(stock_index, ma_buy, ma_sell, start_date,end_date)
+);
+
+
+DROP TABLE stock_detail;
+create table stock_detail
+(
+ stock_index varchar(6) not null,
+ stock_name  varchar(8) not null,
+ stock_industry varchar(20) ,
+ stock_concept  varchar(100),
+ launch_date    date,
+ PRIMARY KEY(stock_index)
+);
+
+
+DROP TABLE stock_basic;
+create table stock_basic
+(
+ stock_index varchar(6) not null,
+ name  varchar(8) not null,
+ industry varchar(20) ,
+ area     varchar(20) ,
+ pe           float  not null,
+ outstanding  float  not null,
+ totals       float  not null,
+ totalAssets  float  not null,
+ liquidAssets float  not null,
+ fixedAssets  float  not null,	
+ reserved	  float  not null,
+ reservedPerShare float  not null,
+ esp	 float  not null,
+ bvps	 float  not null,
+ pb	     float  not null,
+ timeToMarket	float  not null, 
+ undp	 float  not null,
+ perundp float  not null,	
+ rev	 float  not null,
+ profit	 float  not null,
+ gpr	 float  not null,
+ npr	 float  not null,
+ holders float  not null,
+ PRIMARY KEY(stock_index)
+);
+
+DROP TABLE stock_basic;
+create table stock_basic
+(
+ stock_index  varchar(6) not null,
+ 名称         varchar(8) not null,
+ 行业         varchar(20) ,
+ 地区         varchar(20) ,
+ 市盈率       float  not null,
+ 流通股本(亿) float  not null,
+ 总股本(亿)   float  not null,
+ 总资产(万)   float  not null,
+ 流动资产     float  not null,
+ 固定资产     float  not null,	
+ 公积金  	  float  not null,
+ 每股公积金   float  not null,
+ 每股收益	  float  not null,
+ 每股净资	  float  not null,
+ 市净率	      float  not null,
+ 上市日期	  float  not null, 
+ 未分利润	  float  not null,
+ 每股未分配   float  not null,	
+ 收入同比(%)  float  not null,
+ 利润同比(%)  float  not null,
+ 毛利率(%)	  float  not null,
+ 净利润率(%)  float  not null,
+ 股东人数     float  not null,
+ PRIMARY KEY(stock_index)
+);
+
+
+
+
+
+
+DROP TABLE stock_index_raw_data;
+CREATE TABLE stock_index_raw_data
+( 
+ stock_index varchar(6) not null,
+ date     date not null,
+ open     float not null, 
+ high     float not null,
+ low      float not null,
+ close    float not null,
+ volume   double  not null,
+ turnover double  not null,
+ PRIMARY KEY(stock_index,date)
+);
+
+DROP TABLE stock_index_ma;
+CREATE TABLE stock_index_ma
+( 
+ stock_index varchar(6) not null,
+ date     date   not null,
+ open     float  not null, 
+ high     float  not null,
+ low      float  not null,
+ close    float  not null,
+ volume   float  not null,
+ turnover float  not null,
+ ma2      float  not null,
+ ma3      float  not null,
+ ma5      float  not null,
+ ma8      float  not null,
+ ma10     float  not null,
+ ma13     float  not null,
+ ma20     float  not null,
+ ma21     float  not null,
+ ma30     float  not null, 
+ ma34     float  not null, 
+ ma55     float  not null,
+ ma60     float  not null,
+ ma89     float  not null,
+ ma120    float  not null, 
+ PRIMARY KEY(stock_index,date)
+);
+
+DROP TABLE stock_index_ma_rate;
+create table stock_index_ma_rate
+(
+ stock_index varchar(6) not null,
+ profit_rate   float not null,
+ m_ma       int   not null, 
+ start_date date  not null, 
+ end_date   date  not null,
+ buy_count  int   not null, 
+ sell_count int   not null, 
+ win_times  int   not null, 
+ lose_times int   not null,
+ win_rate float not null,
+ max_single_win_rate float not null, 
+ max_rate_buy_date  date,
+ max_rate_sell_date date, 
+ max_single_lose_rate float not null,
+ max_lose_rate_buy_date  date,
+ max_lose_rate_sell_date date,
+ PRIMARY KEY(stock_index,m_ma, start_date,end_date) 
+);
