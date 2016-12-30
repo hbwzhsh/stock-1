@@ -47,11 +47,58 @@ def init_my_stock_list():
     '''
     return stock_list
 
+########################################################################################################################
+#########################################         回测涨停率        ####################################################
+########################################################################################################################
+def calculat_stock_max_times(records):
+    limit_up_times = 0
+    limit_down_times = 0
+    last_close = 0
+    launch_date = '1971-1-1'
+    for index,row in enumerate(records):
+        code, date, open, high, low, close, volume, turnover = row[:8]
+        if(index<1):
+            last_close = close
+            launch_date = date
+            continue
+        if(((close-last_close)/last_close)>0.091) :
+            limit_up_times = limit_up_times +1
+        elif(((close-last_close)/last_close)< -0.091) :
+            limit_down_times = limit_down_times +1
+        last_close = close
 
+    return index, launch_date,limit_up_times, my_round(limit_up_times/index), limit_down_times, my_round(limit_down_times/index)
+
+###################################### 计算某支股票的指定MA策略买卖数据 ################################################
+def calculat_stock_rate(calculate_func, records, stock_index, to_table):
+
+
+    #使用策略后 获得买入卖出时间 价格列表
+    deal_days, launch_date, limit_up_times, limit_up_times_rate, limit_down_times, limit_down_times_rate = calculate_func(records)
+
+    # 插入数据库
+    conn = pymysql.connect(user='root', host='localhost', passwd='123456', db='stock', charset="utf8")
+    cur = conn.cursor()
+    sqli = "insert into {0} values ('{1}',{2},\"{3}\",{4},{5},{6},{7});"
+    sqlm = sqli.format(to_table,stock_index, deal_days, launch_date, limit_up_times, limit_up_times_rate, limit_down_times, limit_down_times_rate)
+    try:
+
+        cur.execute(sqlm)
+        # print(sqlm)
+    except:
+        print("Insert Error", sqlm)
+
+    conn.commit()
+    if cur and conn:
+        cur.close()
+        conn.close()
+
+    return
 
 ########################################################################################################################
 #########################################           回测        ########################################################
 ########################################################################################################################
+
 ############################################# 九转选股之日线低9  #######################################################
 def dig_stock_by_nigh_times(records, buy_ma, sell_ma, times = 13, continuous_ref_times = 4):
     buy_stock_list  = [] #买入列表
@@ -324,12 +371,14 @@ def calculat_stock_ma_rate(calculate_func, records, stock_index, start_date, end
 def process_calculate_stock_ma_macd_rate(start_date, end_date, from_table, to_table, stock_index, index, list_len):
     buy_ma_list = [2, 3, 5, 8, 10, 13, 20, 21, 30, 34, 55, 60, 89, 120]    #周期序列
     sell_ma_list = [2, 3, 5, 8, 10, 13, 20, 21, 30, 34, 55, 60, 89, 120]   #周期序列
+    max_times_list = []
 
     #打印进度 时间 ID
     print("processed: %s%%,  Id:%s,  Time:%s" % (int((index / list_len) * 100), stock_index, (str(datetime.datetime.now()))))
 
     #取原始数据
-    records = get_stock_ma_macd_data_from_mysql(stock_index, start_date, end_date, from_table)
+    #records = get_stock_ma_macd_data_from_mysql(stock_index, start_date, end_date, from_table)
+    records = get_stock_all_data_from_mysql_stock_index(stock_index)
     if(len(records) > 0):
         '''
         # 数据有效计算Ma收益率
@@ -344,19 +393,19 @@ def process_calculate_stock_ma_macd_rate(start_date, end_date, from_table, to_ta
 
         # 计算九转低九后 持股N日 收益率
         #calculat_stock_ma_rate(dig_stock_by_nigh_times, records, stock_index, start_date, end_date, 9, 9, to_table)
-        calculat_stock_ma_rate(dig_stock_by_nigh_times, records, stock_index, start_date, end_date, 13, 13, to_table)
+        #calculat_stock_ma_rate(dig_stock_by_nigh_times, records, stock_index, start_date, end_date, 13, 13, to_table)
+        calculat_stock_rate(calculat_stock_max_times, records, stock_index, 'stock_temp_rate')
 
     #如果数据为0， 则不做计算并打印
     #else:
         #print("Error: get ma data is 0 (%s)" % stock_index)
 
 
-
-
 ##################################### 启动多进程任务转换通达信数据并插入数据库 #########################################
 def multi_process_calculate_stock_ma_macd_rate(start_date, end_date, from_table, mysql_table_name):
     # 获取所有股票源文件列表
     stock_file_list = get_stock_index_list_from_mysql(from_table)
+    #stock_file_list = init_my_stock_list()
     #启动多进程
     multi_process_job(process_calculate_stock_ma_macd_rate,stock_file_list, args=(start_date, end_date, from_table,mysql_table_name))
 

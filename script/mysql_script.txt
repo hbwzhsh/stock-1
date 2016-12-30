@@ -70,6 +70,16 @@ create table stock_ma_rate
  PRIMARY KEY(stock_index, ma_buy, ma_sell, start_date,end_date)
 );
 
+DROP TABLE stock_temp_rate;
+create table stock_temp_rate
+(
+ stock_index varchar(6) not null,
+ times       int   not null,
+ deal_days   int   not null, 
+ launch_date date,
+ times_rate  float not null, 
+ PRIMARY KEY(stock_index)
+);
 
 DROP TABLE stock_detail;
 create table stock_detail

@@ -69,6 +69,18 @@ def get_stock_ma_macd_data_from_mysql(stock_index, start_date, end_date, from_ta
 
     return records
 
+def get_stock_all_data_from_mysql_stock_index(stock_index):
+    conn, cur = open_mysql()
+
+    sql = "SELECT *  FROM stock_raw_data where stock_index ='{0}' "
+    sql = sql.format(stock_index)
+    #print(sql)
+    cur.execute(sql)
+    records = cur.fetchall()
+
+    close_mysql(conn, cur)
+
+    return records
 ########################################### 从数据库中获取股票列表数据 #################################################
 def get_stock_index_list_from_mysql(source_index_list_table_name):
     conn, cur = open_mysql()
