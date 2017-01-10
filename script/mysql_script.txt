@@ -74,10 +74,12 @@ DROP TABLE stock_temp_rate;
 create table stock_temp_rate
 (
  stock_index varchar(6) not null,
- times       int   not null,
- deal_days   int   not null, 
- launch_date date,
- times_rate  float not null, 
+ deal_days              int   not null, 
+ launch_date            date,
+ limit_up_times         int   not null,
+ limit_up_times_rate    float not null, 
+ limit_down_times       int   not null,
+ limit_down_times_rate  float not null,  
  PRIMARY KEY(stock_index)
 );
 

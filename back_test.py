@@ -84,7 +84,7 @@ def calculat_stock_rate(calculate_func, records, stock_index, to_table):
     try:
 
         cur.execute(sqlm)
-        # print(sqlm)
+        #print(sqlm)
     except:
         print("Insert Error", sqlm)
 
@@ -377,8 +377,7 @@ def process_calculate_stock_ma_macd_rate(start_date, end_date, from_table, to_ta
     print("processed: %s%%,  Id:%s,  Time:%s" % (int((index / list_len) * 100), stock_index, (str(datetime.datetime.now()))))
 
     #取原始数据
-    #records = get_stock_ma_macd_data_from_mysql(stock_index, start_date, end_date, from_table)
-    records = get_stock_all_data_from_mysql_stock_index(stock_index)
+    records = get_stock_raw_data_from_mysql(stock_index,start_date, end_date, from_table)
     if(len(records) > 0):
         '''
         # 数据有效计算Ma收益率
@@ -394,6 +393,8 @@ def process_calculate_stock_ma_macd_rate(start_date, end_date, from_table, to_ta
         # 计算九转低九后 持股N日 收益率
         #calculat_stock_ma_rate(dig_stock_by_nigh_times, records, stock_index, start_date, end_date, 9, 9, to_table)
         #calculat_stock_ma_rate(dig_stock_by_nigh_times, records, stock_index, start_date, end_date, 13, 13, to_table)
+
+        #计算涨跌停次数，比例
         calculat_stock_rate(calculat_stock_max_times, records, stock_index, 'stock_temp_rate')
 
     #如果数据为0， 则不做计算并打印
@@ -455,7 +456,7 @@ if __name__ == '__main__':
     print('Start time is %s.' % (str(datetime.datetime.now())))
     start_date_list = []
     end_date_list   = []
-    start_date_list.append('2013-1-1')   # 起始日期
+    start_date_list.append('1971-1-1')   # 起始日期
     today = datetime.date.today().strftime("%Y-%m-%d")
     end_date_list.append(today)   # 结束日期
     '''
