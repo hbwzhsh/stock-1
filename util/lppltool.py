@@ -116,7 +116,7 @@ class Population:
 
     def PopulationPrint(self):
         for x in self.populous:
-            print x.cof
+            print(x.cof)
     def SetFitness(self):
         self.fitness = [x.fit for x in self.populous]
     def FitnessStats(self):
@@ -134,13 +134,13 @@ class Population:
                 false += 1
                 self.populous.remove(individual)
         self.SetFitness()
-        print "\n fitness out size: " + str(len(self.populous)) + " " + str(false)
+        print("\n fitness out size: " + str(len(self.populous)) + " " + str(false))
     def Eliminate(self):
         a = len(self.populous)
         self.populous.sort(key=lambda ind: ind.fit)
         while (len(self.populous) > self.size * self.eliminate):
             self.populous.pop()
-        print "Eliminate: " + str(a- len(self.populous))
+        print("Eliminate: " + str(a- len(self.populous)))
     def Mate(self):
         counter = 0
         while (len(self.populous) <= self.mate * self.size):
@@ -152,14 +152,14 @@ class Population:
                 self.populous.append(i.mate(j))
 
             if (counter > Population.LOOP_MAX):
-                print "loop broken: mate"
+                print("loop broken: mate")
                 while (len(self.populous) <= self.mate * self.size):
                     i = self.populous[random.randint(0, len(self.populous)-1)]
                     j = self.populous[random.randint(0, len(self.populous)-1)]
                     self.populous.append(i.mate(j))
 
 
-        print "Mate Loop complete: " + str(counter)
+        print("Mate Loop complete: " + str(counter))
 
     def Mutate(self):
         counter = 0
@@ -168,7 +168,7 @@ class Population:
                 ind.mutate()
                 ind.fitness()
                 counter +=1
-        print "Mutate: " + str(counter)
+        print("Mutate: " + str(counter))
         self.SetFitness()
 
     def BestSolutions(self, num):
