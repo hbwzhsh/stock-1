@@ -1,5 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+' init mysql database module '
+__author__ = 'Yuechen Yang'
 
 import pymysql
 import os

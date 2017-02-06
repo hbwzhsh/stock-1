@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+' common model '
+__author__ = 'Yuechen Yang'
+
 from functools import reduce
 
 def char2num(s):

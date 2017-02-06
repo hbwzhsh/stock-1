@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+' back test model '
+__author__ = 'Yuechen Yang'
+
 import pymysql
 import os
 import datetime
@@ -8,6 +13,7 @@ from matplotlib.lines import Line2D, TICKLEFT, TICKRIGHT
 import matplotlib.pyplot as plt
 import numpy as np
 from init_sql import *
+from util.dateu import *
 import time
 
 #################################################### 初始化股票列表 ####################################################
@@ -444,6 +450,8 @@ def process_calculate_stock_ma_macd_rate(start_date, end_date, from_table, to_ta
         #print("Error: get ma data is 0 (%s)" % stock_index)
 
 
+
+@log_date_time
 def analyze_result():
     conn, cur = open_mysql()
 
@@ -491,8 +499,7 @@ def multi_process_calculate_stock_ma_macd_rate(start_date, end_date, from_table,
     stock_file_list = get_stock_index_list_from_mysql(from_table)
     #stock_file_list = init_my_stock_list()
     #启动多进程
-    multi_process_job(process_calculate_stock_ma_macd_rate,stock_file_list, args=(start_date, end_date, from_table,mysql_table_name))
-
+    #multi_process_job(process_calculate_stock_ma_macd_rate,stock_file_list, args=(start_date, end_date, from_table,mysql_table_name))
 
 
 ################################################## 初始化绘制窗口 ###################################################

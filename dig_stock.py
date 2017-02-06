@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+' dig stock model '
+__author__ = 'Yuechen Yang'
+
 import pymysql
 import os
 import datetime
