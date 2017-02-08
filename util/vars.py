@@ -1,4 +1,10 @@
-# -*- coding:utf-8 -*- 
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+' var module '
+
+__author__ = 'Yuechen Yang'
+
 import sys
 PY3 = (sys.version_info[0] >= 3)
 

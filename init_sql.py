@@ -29,28 +29,25 @@ def multi_process_job(func, iterate_list, args=()):
     pool.join()
 
 def get_stock_detail(stock_index):
-    conn, cur = open_mysql()
+    operatMySQl = OperateMySQL()
 
     sql = "SELECT *  FROM stock_detail where stock_index ='{0}';"
     sql = sql.format(stock_index)
-    # print(sql)
-    cur.execute(sql)
-    records = cur.fetchall()
 
-    close_mysql(conn, cur)
+    operatMySQl.execute(sql)
+    records = operatMySQl.fetchall()
 
     return records
 
 def get_stock_basic(stock_index):
-    conn, cur = open_mysql()
+    operatMySQl = OperateMySQL()
 
     sql = "SELECT *  FROM stock_basic where stock_index ='{0}';"
     sql = sql.format(stock_index)
-    # print(sql)
-    cur.execute(sql)
-    records = cur.fetchall()
 
-    close_mysql(conn, cur)
+    operatMySQl.execute(sql)
+    records = operatMySQl.fetchall()
+
     stock_index, name, industry, area, pe, outstanding, totals, totalAssets, liquidAssets, fixedAssets, reserved,\
         reservedPerShare, esp, bvps, pb, timeToMarket, undp, perundp, rev, profit, gpr, npr, holders, = records[0][:23]
     info = "{0}, {1:<5}, {2:<4}, 市盈率：{3}, 流通(亿)：{4} 总股本(亿)：{5}，每股公积金：{6}, 每股收益：{7} 每股净资：{8}，市净率：{9}， 上市日期：{10}， 每股未分配：{11}"
@@ -59,56 +56,50 @@ def get_stock_basic(stock_index):
 
 ################################# 从数据库指定的表依据指定条件取出某支股票数据 #########################################
 def get_stock_raw_data_from_mysql(stock_index, start_date, end_date, from_table):
-    conn, cur = open_mysql()
+    operatMySQl = OperateMySQL()
 
     sql = "SELECT *  FROM stock_raw_data natural join {0} where stock_index ='{1}' and (date>='{2}' and date <= '{3}')"
     sql = sql.format(from_table, stock_index, start_date, end_date)
     #print(sql)
-    cur.execute(sql)
-    records = cur.fetchall()
-
-    close_mysql(conn, cur)
+    operatMySQl.execute(sql)
+    records = operatMySQl.fetchall()
 
     return records
 
 ########################################### 从数据库中获取股票列表数据 #################################################
 def get_stock_index_list_from_mysql(source_index_list_table_name):
-    conn, cur = open_mysql()
+    operatMySQl = OperateMySQL()
 
     stock_list = []
-    cur.execute("SELECT distinct stock_index  FROM %s" % source_index_list_table_name)
-    records = cur.fetchall()
+    operatMySQl.execute("SELECT distinct stock_index  FROM %s" % source_index_list_table_name)
+    records = operatMySQl.fetchall()
     for row in records:
         stock_list.append("%06d" %int(row[0]))
 
     print("Total Stock Number:%s  Time%s" %(len(records),(str(datetime.datetime.now()))))
-
-    close_mysql(conn, cur)
 
     return stock_list
 
 ######################################### 通过Index从数据库中获取股票数据 ##############################################
 def get_stock_recorde_by_index_from_mysql(source_index_list_table_name, stock_index):
-    conn, cur = open_mysql()
+    operatMySQl = OperateMySQL()
 
     stock_list = []
     sqli = "SELECT * FROM {0} WHERE stock_index= '{1}'"
     sqli = sqli.format(source_index_list_table_name, stock_index)
-    cur.execute(sqli)
-    records = cur.fetchall()
+    operatMySQl.execute(sqli)
+    records = operatMySQl.fetchall()
     for row in records:
         stock_list.append("%06d" %int(row[0]))
 
     print("Total Stock Number:%s  Time%s" %(len(records),(str(datetime.datetime.now()))))
-
-    close_mysql(conn, cur)
 
     return stock_list
 
 
 ########################################### 转换通达信数据并插入数据库 #################################################
 def process_convert_tdx_to_mysql(stock_dir, mysql_table_name, stock_file_name, index, list_len):
-    conn, cur = open_mysql()
+    operatMySQl = OperateMySQL()
 
     stock_file_path_name = stock_dir + stock_file_name
     stock_index = stock_file_name[3:9]
@@ -124,13 +115,13 @@ def process_convert_tdx_to_mysql(stock_dir, mysql_table_name, stock_file_name, i
         if len(res) == 7  :
             sqlm = sqli.format(mysql_table_name, str(stock_index), res[0], res[1], res[2], res[3], res[4], res[5], res[6])
             try:
-                cur.execute(sqlm)
+                operatMySQl.execute(sqlm)
                 #print(sqlm)
             except:
                 print("Insert Error", sqlm)
 
-    conn.commit()
-    close_mysql(conn, cur)
+    operatMySQl.commit()
+
 
 ##################################### 启动多进程任务转换通达信数据并插入数据库 #########################################
 def multi_process_convert_tdx_to_mysql(stock_dir, mysql_table_name):
@@ -200,7 +191,7 @@ def calculate_ma(records, ma_x):
     return ma_list
 ######################################### 计算单只股票的算术MA 值 并插入数据库 #########################################
 def process_calculat_ma_macd_to_mysql(from_table_name, to_talbe_name, stock_index, index, list_len):
-    conn, cur = open_mysql()
+    operatMySQl = OperateMySQL()
 
     ma_list = [2, 3, 5, 8, 10, 13, 20, 21, 30, 34, 55, 60, 89, 120]
 
@@ -210,8 +201,8 @@ def process_calculat_ma_macd_to_mysql(from_table_name, to_talbe_name, stock_inde
 
     sql = "SELECT * FROM {0} where stock_index = '{1}'"
     sql = sql.format(from_table_name,stock_index)
-    cur.execute(sql)
-    records = cur.fetchall()
+    operatMySQl.execute(sql)
+    records = operatMySQl.fetchall()
     #计算MA
     for m_ma in ma_list:
         records = calculate_ma(records, m_ma)
@@ -226,13 +217,12 @@ def process_calculat_ma_macd_to_mysql(from_table_name, to_talbe_name, stock_inde
                            ma34, ma55, ma60, ma89, ma120, ema12, ema26, diff, dea, bar)
         # print(sqlm)
         try:
-            cur.execute(sqlm)
+            operatMySQl.execute(sqlm)
             #print(sqlm)
         except:
             print("Insert Error", sqlm)
 
-    conn.commit()
-    close_mysql(conn, cur)
+    operatMySQl.commit()
 
 ##################################### 启动多进程任务转换通达信数据并插入数据库 #########################################
 def multi_process_calculat_ma_macd_to_mysql(from_table_name, to_talbe_name):
@@ -247,7 +237,8 @@ def multi_process_calculat_ma_macd_to_mysql(from_table_name, to_talbe_name):
 def init_stock_detail_info_to_mysql(source_index_list_table_name, to_table_name):
     stock_list = get_stock_index_list_from_mysql(source_index_list_table_name)
 
-    conn, cur = open_mysql()
+    operatMySQl = OperateMySQL()
+
     df_industry = ts.get_industry_classified()
     df_concept = ts.get_concept_classified()
 
@@ -286,15 +277,14 @@ def init_stock_detail_info_to_mysql(source_index_list_table_name, to_table_name)
         print(index, sqlm)
         if(len(stock_name)>2):
             try:
-                cur.execute(sqlm)
-                conn.commit()
+                operatMySQl.execute(sqlm)
+                operatMySQl.commit()
                 # print(sqlm)
             except Exception as e:
                 print("Insert DB Error", e, sqlm)
         else:
             print("Parameter Error: %s" %sqlm)
 
-    close_mysql(conn, cur)
 
 import pandas as pd
 from pandas.compat import StringIO
@@ -303,7 +293,7 @@ def init_stock_basic_info_to_mysql(source_index_list_table_name, to_table_name):
 
     df_basic = ts.get_stock_basics()
 
-    conn, cur = open_mysql()
+    operatMySQl = OperateMySQL()
 
     for stock_index,stock_basic in df_basic.iterrows():
         name, industry, area, pe, outstanding, totals, totalAssets, liquidAssets, fixedAssets, reserved, \
@@ -316,14 +306,14 @@ def init_stock_basic_info_to_mysql(source_index_list_table_name, to_table_name):
                            my_round(esp), my_round(bvps), my_round(pb), timeToMarket, my_round(undp), my_round(perundp),
                            my_round(rev), my_round(profit), my_round(gpr), my_round(npr),  my_round(holders))
         try:
-            cur.execute(sqlm)
+            operatMySQl.execute(sqlm)
 
             # print(sqlm)
         except Exception as e:
             print("Insert DB Error", e, sqlm)
 
-    conn.commit()
-    close_mysql(conn, cur)
+    operatMySQl.commit()
+
 
 
 def test():
@@ -334,14 +324,15 @@ def test():
     # 获取所有股票列表
     stock_list = get_stock_index_list_from_mysql('stock_raw_data')
 
-    conn, cur = open_mysql()
+    operatMySQl = OperateMySQL()
+
     sql = "SELECT * FROM stock_ma_rate where stock_index = '{0}'  order by profit_rate desc limit 2;"
     lost = 0
 
     for stock_index in stock_list:
         sqli = sql.format(stock_index)
-        cur.execute(sqli)
-        records = cur.fetchall()
+        operatMySQl.execute(sqli)
+        records = operatMySQl.fetchall()
         #print(re[0][3])
         if(len(records)>0):
             for row in records:
@@ -354,7 +345,6 @@ def test():
     print(m_dict)
     print(lost)
 
-    close_mysql(conn, cur)
 
 if __name__ == '__main__':
 
