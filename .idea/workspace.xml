@@ -4,10 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/back_test.py" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5e30d405-2221-467c-ae45-fbb5b825fd1e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/vars.py" afterPath="$PROJECT_DIR$/util/vars.py" />
-    </list>
+    <list default="true" id="5e30d405-2221-467c-ae45-fbb5b825fd1e" name="Default" comment="" />
     <ignored path="stock.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,8 +26,8 @@
       <file leaf-file-name="init_sql.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/init_sql.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="69" column="26" selection-start-line="69" selection-start-column="26" selection-end-line="69" selection-end-column="26" />
+            <state relative-caret-position="134">
+              <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
               <folding>
                 <element signature="e#107#121#0" expanded="true" />
               </folding>
@@ -98,9 +95,9 @@
         <entry file="file://$PROJECT_DIR$/util/operate_mysql.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="304">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
               <folding>
-                <marker date="1486544129451" expanded="true" signature="0:1" ph="..." />
+                <marker date="1486544228843" expanded="true" signature="0:1" ph="..." />
               </folding>
             </state>
           </provider>
@@ -505,12 +502,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/init_sql.py</url>
-          <line>332</line>
+          <line>321</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/init_sql.py</url>
-          <line>329</line>
+          <line>318</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
@@ -559,7 +556,7 @@
         <state relative-caret-position="38">
           <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="27" />
           <folding>
-            <marker date="1486544129451" expanded="true" signature="0:1" ph="..." />
+            <marker date="1486544228843" expanded="true" signature="0:1" ph="..." />
           </folding>
         </state>
       </provider>
@@ -925,17 +922,17 @@
     <entry file="file://$PROJECT_DIR$/util/operate_mysql.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
           <folding>
-            <marker date="1486544129451" expanded="true" signature="0:1" ph="..." />
+            <marker date="1486544228843" expanded="true" signature="0:1" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/init_sql.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="248">
-          <caret line="69" column="26" selection-start-line="69" selection-start-column="26" selection-end-line="69" selection-end-column="26" />
+        <state relative-caret-position="134">
+          <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
           <folding>
             <element signature="e#107#121#0" expanded="true" />
           </folding>
