@@ -20,7 +20,7 @@ def multi_process_job(func, iterate_list, args=()):
     result = []
     index = 0
     list_len = len(iterate_list)
-    process_percent = 0
+
     for list_index in iterate_list:
         index = index + 1
         result.append( pool.apply_async(func, args=(args+(list_index, index, list_len))))

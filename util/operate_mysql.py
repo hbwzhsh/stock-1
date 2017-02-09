@@ -21,18 +21,28 @@ class OperateMySQL(object):
     def __del__(self):
         if self.__class__.cur:
             self.__class__.cur.close()
+            self.__class__.cur = None
         if self.__class__.conn:
             self.__class__.conn.close()
+            self.__class__.conn = None
 
     def get_operater(self):
+        #if self.__class__.conn == None or self.__class__.cur == None:
+        #    print("DB get operater error")
         return self.__class__.conn, self.__class__.cur
 
     def execute(self,sql):
         # print(sql)
+        #if self.__class__.conn == None or self.__class__.cur == None:
+        #    print("DB execute error")
         self.__class__.cur.execute(sql)
 
     def fetchall(self):
+        #if self.__class__.conn == None or self.__class__.cur == None:
+        #    print("DB fetchall error")
         return  self.__class__.cur.fetchall()
 
     def commit(self):
+        #if self.__class__.conn == None or self.__class__.cur == None:
+        #    print("DB commit error")
         return  self.__class__.conn.commit()

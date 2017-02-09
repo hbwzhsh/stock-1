@@ -1,22 +1,21 @@
-import util.lppltool as lppltool
-from matplotlib import pyplot as plt
-import datetime
-import numpy as np
-import pandas as pd
-import seaborn as sns
+from util.operate_mysql import *
+from util import vars as vs
 
-sns.set_style('white')
+from util.multi_processes import *
+from util.process_job import *
+from stock_rule.covert_tdx_2_mysql import *
+from stock_rule.calculat_ma_macd_2_mysql import *
 
-limits = ([8.4, 8.8], [-1, -0.1], [350, 400], [.1, .9], [-1, 1], [12, 18], [0, 2 * np.pi])
-x = lppltool.Population(limits, 20, 0.3, 1.5, .05, 4)
-for i in range(2):
-    x.Fitness()
-    x.Eliminate()
-    x.Mate()
-    x.Mutate()
+from util.operate_mysql import *
 
-x.Fitness()
-values = x.BestSolutions(3)
-for x in values:
-    print
-    x.PrintIndividual()
+
+if __name__ == '__main__':
+    testMultiprocess = Multi_Processes()
+    init_database = Convert_TDX_2_Mysql()
+    calculat_ma_macd = Calculat_MA_MACD_2_Mysql()
+
+    # 使用多进程转化通达信普通股票数据插入数据库
+    #testMultiprocess.start_multi_process_job(init_database)
+
+    # 使用多进程计算普通股票MA/MACD数据并插入数据库
+    testMultiprocess.start_multi_process_job(calculat_ma_macd)
