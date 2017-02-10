@@ -118,11 +118,13 @@ class Calculat_MA_MACD_2_Mysql(Process_Job):
 
         operatMySQl.commit()
 
+    def __init__(self, from_table_name, to_talbe_name):
+        #初始化本策略参数
+        self.__from_table_name = from_table_name
+        self.__to_talbe_name   = to_talbe_name
 
     def get_list(self):
-        return self.get_stock_index_list_from_mysql('stock_raw_data')
+        return self.get_stock_index_list_from_mysql(self.__from_table_name)
 
     def get_args(self):
-        from_table_name  = 'stock_raw_data'
-        to_talbe_name    = 'stock_ma_macd'
-        return from_table_name,to_talbe_name
+        return self.__from_table_name, self.__to_talbe_name

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-' multi job module '
+' convert tdx to mysql module '
 
 __author__ = 'Yuechen Yang'
 
@@ -35,11 +35,13 @@ class Convert_TDX_2_Mysql(Process_Job):
 
         operatMySQl.commit()
 
+    def __init__(self, stock_dir, mysql_table_name):
+        #初始化本策略参数
+        self.__stock_dir        = stock_dir
+        self.__mysql_table_name = mysql_table_name
+
     def get_list(self):
-        stock_dir =  "d:\\Stock_Data\\"
-        return os.listdir(stock_dir)
+        return os.listdir(self.__stock_dir)
 
     def get_args(self):
-        stock_dir =  "d:\\Stock_Data\\"
-        mysql_table_name = 'stock_raw_data'
-        return stock_dir,mysql_table_name
+        return self.__stock_dir, self.__mysql_table_name
