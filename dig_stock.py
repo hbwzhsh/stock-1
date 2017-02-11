@@ -22,7 +22,7 @@ if __name__ == '__main__':
     starttime = datetime.datetime.now()
     print('Start time is %s.' % (str(datetime.datetime.now())))
 
-    start_date_list.append('2016-11-1')  # 起始日期
+    start_date_list.append('2016-12-1')  # 起始日期
     today = datetime.date.today().strftime("%Y-%m-%d")
     end_date_list.append(today)  # 结束日期
 
