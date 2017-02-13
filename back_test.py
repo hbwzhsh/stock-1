@@ -3,18 +3,17 @@
 ' back test model '
 __author__ = 'Yuechen Yang'
 
-import pymysql
-import os
-import datetime
-from matplotlib.ticker import MultipleLocator, FormatStrFormatter
-from cycler import cycler
-import multiprocessing
-from matplotlib.lines import Line2D, TICKLEFT, TICKRIGHT
+import time
+
 import matplotlib.pyplot as plt
 import numpy as np
-from init_sql import *
+from cycler import cycler
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
+
+from stock_rule.back_test.back_test_low_nigh_times import *
+from stock_rule.back_test.back_test_stock_rate_macd_deviation import *
+from stock_rule.back_test.back_test_stock_rate_macd_basic import *
 from util.dateu import *
-import time
 
 #################################################### 初始化股票列表 ####################################################
 def init_stock_list_for_convert():
@@ -124,191 +123,6 @@ def calculat_stock_rate(calculate_func, records, stock_index, to_table):
 #########################################           回测        ########################################################
 ########################################################################################################################
 
-############################################# 九转选股之日线低9  #######################################################
-def dig_stock_by_nigh_times(records, buy_ma, sell_ma, times = 13, continuous_ref_times = 4):
-    buy_stock_list  = [] #买入列表
-    sell_stock_list = [] #卖出列表
-    queue_close = []
-    continuous_time = 0
-    is_buy = 0
-    day_num_after_buy = 0
-    keep_stock_days = 13
-
-    for index,row in enumerate(records):
-        code, date, open, high, low, close, volume, turnover, ma2, ma3, ma5, \
-        ma8, ma10, ma13, ma20, ma21, ma30, ma34, ma55, ma60, ma89, ma120, ema12, ema26, diff, dea, bar = row[:27]
-
-        queue_close.append(float(close))
-        if (index < (continuous_ref_times-1)):
-            #交易日小于，等于4 只记录收盘价
-            continue
-        #符合条件，买入后持有至keep_stock_days结束后卖出
-        if is_buy == 1:
-            day_num_after_buy = day_num_after_buy + 1
-            if day_num_after_buy > keep_stock_days:
-                is_buy = 0
-                day_num_after_buy = 0
-                sell_stock_list.append((code, date, open, high, low, close, volume))
-        elif is_buy == 0:
-            #今日收盘价 低于 continuous_ref_times 日之前的收盘价，连续符合本条件times 次后买入
-            ref_continuous_time = True
-            #for last_close in queue_close:
-            last_close = queue_close[0]
-            if(close > last_close):
-                ref_continuous_time = False
-
-            if(True == ref_continuous_time):
-                continuous_time = continuous_time + 1
-            elif(False == ref_continuous_time):
-                continuous_time = 0
-
-            #已找到符合条件个股
-            if(continuous_time>= times):
-                #print(date, get_stock_detail(code))
-                #if is_buy == 0:
-                is_buy = 1
-                continuous_time = 0
-                buy_stock_list.append((code, date, open, high, low, close, volume))
-        queue_close.pop(0)
-
-    return buy_stock_list, sell_stock_list
-
-#################################### 计算MACD底背离买入，macd死叉卖出收益率 ############################################
-def calculate_stock_rate_macd_deviation( records, buy_ma, sell_ma):
-    buy_stock_list  = [] #买入列表
-    sell_stock_list = [] #卖出列表
-    first_golden      = 0
-    first_low_close   = 0.0
-    first_golden_date = '1971-1-1'
-    first_low_diff   = 0.0
-    first_red_bar_num = 0
-    second_low_diff  = 0.0
-    second_low_close = 0.0
-    second_green_bar_num = 0
-    first_dead       = 0
-    first_daed_date = '1971-1-1'
-    is_buy = 0
-    keep_days = 0
-
-    for row in records:
-        code, date, open, high, low, close, volume, turnover, ma2, ma3, ma5, \
-        ma8, ma10, ma13, ma20, ma21, ma30, ma34, ma55, ma60, ma89, ma120, ema12, ema26, diff, dea, bar = row[:27]
-
-
-
-        '''
-        #持有固定周期 24个
-        if is_buy == 1:
-            keep_days = keep_days +1
-            if(keep_days>=23):
-                is_buy = 0
-                keep_days = 0
-                sell_stock_list.append((code, date, open, high, low, close, volume))
-            #创新低 止损
-            elif(diff < first_low_diff):
-                is_buy = 0
-                keep_days = 0
-                sell_stock_list.append((code, date, open, high, low, close, volume))
-        '''
-        # 死叉卖出
-        if is_buy == 1:
-            if (diff < dea):
-                is_buy = 0
-                sell_stock_list.append((code, date, open, high, low, close, volume))
-                # print("sell" ,code, date)
-        else:
-            if(first_golden == 0):  #记录第一次金叉前的最小diff
-                if(first_low_diff>diff):
-                    first_low_diff  = diff
-                    first_low_close = close
-            elif(first_golden == 1):
-                if(diff>0):    #第一次金叉后，diff穿0轴，则视为金叉无效，所有条件reset
-                    first_golden    = 0
-                    first_golden_date = '1971-1-1'
-                    first_low_diff  = 0
-                    first_low_close = 0
-                    first_red_bar_num = 0
-                    second_low_diff = 0
-                    second_low_close = 0
-                    first_dead = 0
-                    second_green_bar_num  = 0
-                #记录第二次金叉前的最小diff
-                if (second_low_diff > diff):
-                    second_low_diff  = diff
-                    second_low_close = close
-
-            #第一次金叉后的red bar 连续大于0的数目
-            if (bar > 0 and first_golden == 1):
-                first_red_bar_num = first_red_bar_num + 1
-
-            #diff小于0后第一次金叉后的死叉后 bar连续小于0的数目
-            if(bar<0 and first_dead == 1):
-                second_green_bar_num = second_green_bar_num +1
-
-            #金叉且 diff 小于0
-            if (diff > dea) and diff < 0:
-                #底背离成立
-                if((first_golden == 1) and (first_dead ==1) and (second_low_close< first_low_close) and second_low_diff> first_low_diff and second_green_bar_num >= 2):
-                    #print("底背离:", code, get_stock_detail(code), first_golden_date, first_low_close, second_low_close, first_daed_date, date, close)
-                    if is_buy == 0:
-                        is_buy = 1
-                        buy_stock_list.append((code, date, open, high, low, close, volume))
-                        #break
-                    #return
-                #diff<0后第一次金叉
-                if(first_golden == 0):
-                    first_golden = 1
-                    first_golden_date   = date
-            #diff小于0后第一次金叉后的死叉
-            elif (diff < dea) and diff < 0:
-                if ((first_golden == 1) and (first_dead==0) and first_red_bar_num>=2):
-                    first_dead = 1
-                    first_daed_date = date
-                #如果金叉后又要死叉时，绿柱数目小于2，则视为本次背离已失效，所有条件reset
-                elif ((first_golden == 1) and (first_dead == 0) and first_red_bar_num < 2):
-                    first_golden = 0
-                    first_golden_date = '1971-1-1'
-                    first_low_diff    = 0
-                    first_low_close   = 0
-                    first_red_bar_num = 0
-                    second_low_diff   = 0
-                    second_low_close  = 0
-                    first_dead        = 0
-                    second_green_bar_num = 0
-
-
-    #底背离尚未形成 已钝化
-    #if ((first_golden == 1) and (first_dead == 1) and (
-    #    second_low_close < first_low_close) and second_low_diff > first_low_diff and second_green_bar_num > 2):
-    #    print("钝化:",code,get_stock_detail(code), first_golden_date, first_low_close, second_low_close, first_daed_date, date, close)
-
-    return buy_stock_list, sell_stock_list
-
-####################################### MACD金叉买入，MACD死叉卖出 #################################################
-def calculate_stock_rate_macd_basic( records, buy_ma, sell_ma):
-    buy_stock_list  = [] #买入列表
-    sell_stock_list = [] #卖出列表
-    is_buy = 0
-
-    for row in records:
-        code, date, open, high, low, close, volume, turnover, ma2, ma3, ma5, \
-        ma8, ma10, ma13, ma20, ma21, ma30, ma34, ma55, ma60, ma89, ma120, ema12, ema26, diff, dea, bar = row[:27]
-
-        if(not ((open == close) and (high == low) and (open == high))):
-        #价格都相等时，什么都不做
-        #print("All Equal open=%s close=%s high=%s low=%s" %(open, close, high, low))
-        #else:
-            if (float(diff) > float(dea)) and (float(volume)>10000): # and(float(diff)<0):
-                if is_buy == 0:
-                    is_buy = 1
-                    buy_stock_list.append((code, date, open, high, low, close, volume))
-                    #print(date)
-            elif (float(diff) < float(dea)) and (float(volume)>10000):
-                if is_buy == 1:
-                    is_buy = 0
-                    sell_stock_list.append((code, date, open, high, low, close, volume))
-
-    return buy_stock_list, sell_stock_list
 
 ####################################### 收盘价大于MA 买入，小于MA卖出 #################################################
 def calculate_stock_rate_ma_basic( records, buy_ma, sell_ma):
@@ -423,7 +237,7 @@ def process_calculate_stock_ma_macd_rate(start_date, end_date, from_table, to_ta
 
     #取原始数据
     records = get_stock_raw_data_from_mysql(stock_index,start_date, end_date, from_table)
-    if(len(records) > 0):
+    #if(len(records) > 0):
 
         # 数据有效计算Ma收益率
         #for (buy_ma, sell_ma) in zip (buy_ma_list, sell_ma_list):
@@ -433,7 +247,7 @@ def process_calculate_stock_ma_macd_rate(start_date, end_date, from_table, to_ta
         #calculat_stock_ma_rate(calculate_stock_rate_macd_basic, records, stock_index, start_date, end_date, 0, 0, to_table)
 
         # 计算MACD底背离买入，macd死叉卖出收益率
-        calculat_stock_ma_rate(calculate_stock_rate_macd_deviation, records, stock_index, start_date, end_date, 1, 1, to_table)
+        #calculat_stock_ma_rate(calculate_stock_rate_macd_deviation, records, stock_index, start_date, end_date, 1, 1, to_table)
 
         # 计算九转低九后 持股N日 收益率
         #calculat_stock_ma_rate(dig_stock_by_nigh_times, records, stock_index, start_date, end_date, 9, 9, to_table)
@@ -451,56 +265,56 @@ def process_calculate_stock_ma_macd_rate(start_date, end_date, from_table, to_ta
 
 
 
-@log_date_time
+#@log_date_time
 def analyze_result():
-    conn, cur = open_mysql()
+    operatMySQl = OperateMySQL()
 
     # 大于0的数据个数
-    cur.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate >0;")
-    records = cur.fetchall()
+    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate >0;")
+    records = operatMySQl.fetchall()
     print("大于0：", records[0][0])
 
-    cur.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate >0 and stock_index > 300000 and stock_index < 400000")
-    records = cur.fetchall()
+    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate >0 and stock_index > 300000 and stock_index < 400000")
+    records = operatMySQl.fetchall()
     print("创业板：", records[0][0])
 
-    cur.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate >0 and stock_index > 600000 and stock_index < 700000")
-    records = cur.fetchall()
+    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate >0 and stock_index > 600000 and stock_index < 700000")
+    records = operatMySQl.fetchall()
     print("沪市：", records[0][0])
 
-    cur.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate >0 and stock_index > 000000 and stock_index < 100000")
-    records = cur.fetchall()
+    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate >0 and stock_index > 000000 and stock_index < 100000")
+    records = operatMySQl.fetchall()
     print("深市：", records[0][0])
 
-
-    cur.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate <0 ;")
-    records = cur.fetchall()
+    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate <0 ;")
+    records = operatMySQl.fetchall()
     print("小于0：", records[0][0])
 
-    cur.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate <0 and stock_index > 300000 and stock_index < 400000")
-    records = cur.fetchall()
+    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate <0 and stock_index > 300000 and stock_index < 400000")
+    records = operatMySQl.fetchall()
     print("创业板：", records[0][0])
 
-    cur.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate <0 and stock_index > 600000 and stock_index < 700000")
-    records = cur.fetchall()
+    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate <0 and stock_index > 600000 and stock_index < 700000")
+    records = operatMySQl.fetchall()
     print("沪市：", records[0][0])
 
-    cur.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate <0 and stock_index > 000000 and stock_index < 100000")
-    records = cur.fetchall()
+    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate <0 and stock_index > 000000 and stock_index < 100000")
+    records = operatMySQl.fetchall()
     print("深市：", records[0][0])
-
-    close_mysql(conn, cur)
 
     return records
 
 ##################################### 启动多进程任务转换通达信数据并插入数据库 #########################################
-def multi_process_calculate_stock_ma_macd_rate(start_date, end_date, from_table, mysql_table_name):
-    # 获取所有股票源文件列表
-    stock_file_list = get_stock_index_list_from_mysql(from_table)
-    #stock_file_list = init_my_stock_list()
-    #启动多进程
-    #multi_process_job(process_calculate_stock_ma_macd_rate,stock_file_list, args=(start_date, end_date, from_table,mysql_table_name))
+def process_calculate_stock(start_date, end_date, from_table, to_table):
+    testMultiprocess = Multi_Processes()
+    # 九转回测
+    #testMultiprocess.start_multi_process_job(Back_Test_Low_Nigh_Times(start_date, end_date, from_table, to_table))
 
+    # MACD 底背离回测
+    #testMultiprocess.start_multi_process_job(Back_Test_Stock_Rate_Macd_Deviation(start_date, end_date, from_table, to_table))
+
+    # 计算MACD底背离买入，macd死叉卖出收益率
+    testMultiprocess.start_multi_process_job(Back_Test_Stock_Rate_Macd_Basic(start_date, end_date, from_table, to_table))
 
 ################################################## 初始化绘制窗口 ###################################################
 def init_display(x_lim, y_lim):
@@ -546,31 +360,10 @@ if __name__ == '__main__':
     print('Start time is %s.' % (str(datetime.datetime.now())))
     start_date_list = []
     end_date_list   = []
-    start_date_list.append('2011-1-1')   # 起始日期
+    start_date_list.append('2015-6-1')   # 起始日期
     today = datetime.date.today().strftime("%Y-%m-%d")
     end_date_list.append(today)   # 结束日期
     '''
-    start_date_list.append('2016-1-1')
-    end_date_list.append('2016-3-31')
-
-    start_date_list.append('2016-4-1')
-    end_date_list.append('2016-6-31')
-
-    start_date_list.append('2016-6-1')
-    end_date_list.append('2016-9-31')
-
-    start_date_list.append('2016-10-1')
-    end_date_list.append('2016-11-18')
-
-    start_date_list.append('2016-1-1')
-    end_date_list.append('2016-11-18')
-
-    start_date_list.append( '2011-7-1')
-    end_date_list.append('2014-7-1')
-
-    start_date_list.append('2014-7-1')
-    end_date_list.append('2015-6-15')
-
     start_date_list.append('2015-6-15')  # 起始日期
     end_date_list.append('2016-3-15')    # 结束日期
 
@@ -588,7 +381,7 @@ if __name__ == '__main__':
     #'''
     max_ma = 120
     from_table = 'stock_ma_macd'       #数据源
-    to_table = 'stock_ma_rate'    #目标表
+    to_table = 'stock_win_rate'    #目标表
 
     #from_table = 'stock_index_ma'      #数据源
     #to_table = 'stock_index_ma_rate'  #目标表
@@ -599,16 +392,11 @@ if __name__ == '__main__':
     if (draw_plot == True):
         ax1 = init_display(x_lim=max_ma + 5, y_lim=200)
 
-    # 初始化要计算的股票列表
-    #stock_list =get_stock_index_list_from_mysql(from_table)
-    #stock_list = init_my_stock_list()
-
-
     # 计算收益率
     #max_rate = process_plot_stock_rate(ax1, stock_list, start_date, end_date, draw_plot, from_table, to_table)
     for (start_date, end_date) in zip (start_date_list, end_date_list):
         print("Calculate From %s to %s" %(start_date, end_date))
-        multi_process_calculate_stock_ma_macd_rate(start_date, end_date, from_table, to_table)
+        process_calculate_stock(start_date, end_date, from_table, to_table)
         time.sleep(30)
 
     # 程序结束时间 及 耗时

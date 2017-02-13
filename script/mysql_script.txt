@@ -47,6 +47,28 @@ CREATE TABLE stock_ma_macd
  PRIMARY KEY(stock_index,date)
 );
 
+DROP TABLE stock_win_rate;
+create table stock_win_rate
+(
+ stock_index varchar(6) not null,
+ key_condition varchar(20)not null, 
+ profit_rate   float not null,
+ start_date date  not null, 
+ end_date   date  not null,
+ buy_count  int   not null, 
+ sell_count int   not null, 
+ win_times  int   not null, 
+ lose_times int   not null,
+ win_rate float not null,
+ max_single_win_rate float not null, 
+ max_rate_buy_date  date,
+ max_rate_sell_date date, 
+ max_single_lose_rate float not null,
+ max_lose_rate_buy_date  date,
+ max_lose_rate_sell_date date,
+ PRIMARY KEY(stock_index, key_condition, start_date,end_date)
+);
+
 DROP TABLE stock_ma_rate;
 create table stock_ma_rate
 (

@@ -1,15 +1,9 @@
-from util.operate_mysql import *
-from util import vars as vs
-
-from util.multi_processes import *
-from util.process_job import *
-from stock_rule.covert_tdx_2_mysql import *
-from stock_rule.calculat_ma_macd_2_mysql import *
-from stock_rule.dig_stock_by_nigh_times import *
+from stock_rule.back_test.back_test_calculat_stock_max_lose import *
+from stock_rule.back_test.back_test_low_nigh_times import *
+from stock_rule.back_test.back_test_stock_rate_macd_deviation import *
 from stock_rule.dig_stock_by_macd_low_deviation import *
-from stock_rule.back_test_calculat_stock_max_lose import *
+from stock_rule.dig_stock_by_nigh_times import *
 from util.operate_mysql import *
-
 
 if __name__ == '__main__':
     testMultiprocess = Multi_Processes()
@@ -32,6 +26,15 @@ if __name__ == '__main__':
                                                             from_table = 'stock_ma_macd',
                                                             to_table ='stock_temp_rate')
 
+    back_test_low_nigh_times = Back_Test_Low_Nigh_Times(start_date='2015-6-1',
+                                                           end_date=datetime.date.today().strftime("%Y-%m-%d"),
+                                                           from_table='stock_ma_macd',
+                                                           to_table='stock_win_rate')
+
+    back_test_stock_rate_macd_deviation = Back_Test_Stock_Rate_Macd_Deviation(start_date='2015-6-1',
+                                                           end_date=datetime.date.today().strftime("%Y-%m-%d"),
+                                                           from_table='stock_ma_macd',
+                                                           to_table='stock_win_rate')
     # 使用多进程转化通达信普通股票数据插入数据库
     #testMultiprocess.start_multi_process_job(init_database)
 
@@ -45,4 +48,9 @@ if __name__ == '__main__':
     #testMultiprocess.start_multi_process_job(dig_stock_by_macd_low_deviation)
 
     # 计算一段时间内最大跌幅
-    testMultiprocess.start_multi_process_job(back_test_max_lose)
+    #testMultiprocess.start_multi_process_job(back_test_max_lose)
+
+    # 九转回测
+    #testMultiprocess.start_multi_process_job(back_test_low_nigh_times)
+    #MACD 底背离回测
+    testMultiprocess.start_multi_process_job(back_test_stock_rate_macd_deviation)
