@@ -52,5 +52,6 @@ if __name__ == '__main__':
 
     # 九转回测
     #testMultiprocess.start_multi_process_job(back_test_low_nigh_times)
+    
     #MACD 底背离回测
     testMultiprocess.start_multi_process_job(back_test_stock_rate_macd_deviation)

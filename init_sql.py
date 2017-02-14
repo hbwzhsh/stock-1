@@ -55,17 +55,7 @@ def get_stock_ma_macd_data_from_mysql(stock_index, start_date, end_date, from_ta
 
     return records
 
-################################# 从数据库指定的表依据指定条件取出某支股票数据 #########################################
-def get_stock_raw_data_from_mysql(stock_index, start_date, end_date, from_table):
-    operatMySQl = OperateMySQL()
 
-    sql = "SELECT *  FROM stock_raw_data natural join {0} where stock_index ='{1}' and (date>='{2}' and date <= '{3}')"
-    sql = sql.format(from_table, stock_index, start_date, end_date)
-    #print(sql)
-    operatMySQl.execute(sql)
-    records = operatMySQl.fetchall()
-
-    return records
 
 ########################################### 从数据库中获取股票列表数据 #################################################
 def get_stock_index_list_from_mysql(source_index_list_table_name):

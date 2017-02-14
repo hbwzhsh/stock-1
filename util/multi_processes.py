@@ -6,8 +6,9 @@
 __author__ = 'Yuechen Yang'
 
 import multiprocessing
-from util import vars as vs
-from util import process_job
+from util.multi_processes import *
+import util.vars as vs
+
 
 class Multi_Processes(object):
     #conn = None

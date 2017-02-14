@@ -46,3 +46,16 @@ class OperateMySQL(object):
         #if self.__class__.conn == None or self.__class__.cur == None:
         #    print("DB commit error")
         return  self.__class__.conn.commit()
+
+
+################################# 从数据库指定的表依据指定条件取出某支股票数据 #########################################
+def get_stock_raw_data_from_mysql(stock_index, start_date, end_date, from_table):
+    operatMySQl = OperateMySQL()
+
+    sql = "SELECT *  FROM stock_raw_data natural join {0} where stock_index ='{1}' and (date>='{2}' and date <= '{3}')"
+    sql = sql.format(from_table, stock_index, start_date, end_date)
+    #print(sql)
+    operatMySQl.execute(sql)
+    records = operatMySQl.fetchall()
+
+    return records

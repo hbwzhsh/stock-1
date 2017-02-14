@@ -28,31 +28,10 @@ class Back_Test_Calculat_Stock_Max_Lose(Process_Job):
 
         return index, max_date, 0, max_close, 0, my_round((max_close - close) / max_close)
 
+
     def process(self, start_date, end_date, from_table, to_table, stock_index, index, list_len):
-
-        records = get_stock_raw_data_from_mysql(stock_index, start_date, end_date, from_table)
-        if (len(records) <= 0):
-            return
-
-        # 使用策略后 获得买入卖出时间 价格列表
-        deal_days, launch_date, limit_up_times, limit_up_times_rate, limit_down_times, limit_down_times_rate = self.calculat_stock_max_lose(
-            records)
-
-        # 插入数据库
-        operatMySQl = OperateMySQL()
-
-        sqli = "insert into {0} values ('{1}',{2},\"{3}\",{4},{5},{6},{7});"
-        sqlm = sqli.format(to_table, stock_index, deal_days, launch_date, limit_up_times, limit_up_times_rate,
-                           limit_down_times, limit_down_times_rate)
-        try:
-            operatMySQl.execute(sqlm)
-            # print(sqlm)
-        except:
-            print("Insert Error", sqlm)
-
-        operatMySQl.commit()
-
-        return
+        self.process_calculat_stock_rate(self.calculat_stock_max_lose, 'max lost', start_date, end_date, from_table,
+                           to_table, stock_index, index, list_len)
 
     def __init__(self, start_date, end_date, from_table, to_table):
         # 初始化本策略参数
