@@ -103,7 +103,7 @@ create table stock_temp_rate
  limit_up_times_rate    float not null, 
  limit_down_times       int   not null,
  limit_down_times_rate  float not null,  
- PRIMARY KEY(stock_index)
+ PRIMARY KEY(stock_index, key_condition)
 );
 
 DROP TABLE stock_detail;

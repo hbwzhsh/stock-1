@@ -15,6 +15,7 @@ from stock_rule.back_test.back_test_stock_rate_macd_deviation import *
 from stock_rule.back_test.back_test_stock_rate_macd_basic import *
 from stock_rule.back_test.back_test_calculat_stock_max_lose import *
 from stock_rule.back_test.back_test_calculate_stock_rate_ma_basic import *
+from stock_rule.back_test.back_test_calculate_max_limit_rate import *
 from util.dateu import *
 
 #################################################### 初始化股票列表 ####################################################
@@ -197,7 +198,11 @@ def process_calculate_stock(start_date, end_date, from_table, to_table):
 
 
     # 计算一段时间内最大跌幅
-    testMultiprocess.start_multi_process_job(Back_Test_Calculat_Stock_Max_Lose(start_date, end_date, from_table, 'stock_temp_rate'))
+    #testMultiprocess.start_multi_process_job(Back_Test_Calculat_Stock_Max_Lose(start_date, end_date, from_table, 'stock_temp_rate'))
+
+    #计算一段时间内的涨停率
+    testMultiprocess.start_multi_process_job(Back_Test_Calculat_Max_Limit_Rate(start_date, end_date, from_table, 'stock_temp_rate'))
+
 
 
 ################################################## 初始化绘制窗口 ###################################################

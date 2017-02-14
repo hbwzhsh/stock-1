@@ -25,7 +25,7 @@ class Process_Job(object):
     def process(self):
         pass
 
-    ###################################### 计算某支股票的指定MA策略买卖数据 ################################################
+    ###################################### 回测数据 ################################################
     def process_calculat_stock_rate(self, function, key_condition, start_date, end_date, from_table, to_table, stock_index, index, list_len):
         records = get_stock_raw_data_from_mysql(stock_index, start_date, end_date, from_table)
         if (len(records) <= 0):
@@ -48,6 +48,7 @@ class Process_Job(object):
         operatMySQl.commit()
         return
 
+    ###################################### 回测数据 ################################################
     def process_back_test(self, function, key_condition, start_date, end_date, from_table, to_table, stock_index, index, list_len):
 
         buy_stock_list = []  # 买入列表
