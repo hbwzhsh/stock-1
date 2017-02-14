@@ -35,147 +35,42 @@ def init_stock_list_for_convert():
 
     return stock_list
 
-def init_my_stock_list():
-    stock_list = []  # 存放股票代码列表
-
-    for i in range(1, 16):
-        stock_list.append("30%04d" %i)
-
-    #stock_list.append("300001")
-    #stock_list.append("300002")
-    '''
-    stock_list.append("300245")
-    stock_list.append("300413")
-    stock_list.append("300085")
-    stock_list.append("002312")
-    stock_list.append("600061")
-    stock_list.append("300352")
-    stock_list.append("300350")
-    stock_list.append("600718")
-    '''
-    return stock_list
-########################################################################################################################
-#########################################         回测最大跌幅        ##################################################
-########################################################################################################################
-def calculat_stock_max_drawdown(records):
-    limit_up_times = 0
-    limit_down_times = 0
-    max_close = 0.0
-    max_date = '1971-1-1'
-    for index,row in enumerate(records):
-        code, date, open, high, low, close, volume, turnover = row[:8]
-        if(index<1):
-            max_close = close
-            max_date  = date
-            continue
-        if(close>max_close):
-            max_close = close
-            max_date  = date
-
-    return index, max_date, 0,max_close, 0, my_round((max_close-close)/max_close)
-
-########################################################################################################################
-#########################################         回测涨停率        ####################################################
-########################################################################################################################
-def calculat_stock_max_times(records):
-    limit_up_times = 0
-    limit_down_times = 0
-    last_close = 0
-    launch_date = '1971-1-1'
-    for index,row in enumerate(records):
-        code, date, open, high, low, close, volume, turnover = row[:8]
-        if(index<1):
-            last_close = close
-            launch_date = date
-            continue
-        if(((close-last_close)/last_close)>0.091) :
-            limit_up_times = limit_up_times +1
-        elif(((close-last_close)/last_close)< -0.091) :
-            limit_down_times = limit_down_times +1
-        last_close = close
-
-    return index, launch_date,limit_up_times, my_round(limit_up_times/index), limit_down_times, my_round(limit_down_times/index)
-
-
-
-########################################################################################################################
-#########################################           回测        ########################################################
-########################################################################################################################
-
-
-######################################## 计算某支股票的MA策略买卖数据 ##################################################
-def process_calculate_stock_ma_macd_rate(start_date, end_date, from_table, to_table, stock_index, index, list_len):
-    buy_ma_list = [2, 3, 5, 8, 10, 13, 20, 21, 30, 34, 55, 60, 89, 120]    #周期序列
-    sell_ma_list = [2, 3, 5, 8, 10, 13, 20, 21, 30, 34, 55, 60, 89, 120]   #周期序列
-    max_times_list = []
-
-    #打印进度 时间 ID
-    print("processed: %s%%,  Id:%s,  Time:%s" % (int((index / list_len) * 100), stock_index, (str(datetime.datetime.now()))))
-
-    #取原始数据
-    records = get_stock_raw_data_from_mysql(stock_index,start_date, end_date, from_table)
-    #if(len(records) > 0):
-
-        # 数据有效计算Ma收益率
-        #for (buy_ma, sell_ma) in zip (buy_ma_list, sell_ma_list):
-        #    calculat_stock_ma_rate(calculate_stock_rate_ma_basic, records, stock_index, start_date, end_date, buy_ma, sell_ma, to_table)
-
-        #计算MACD 金叉买入, 死叉卖出收益率
-        #calculat_stock_ma_rate(calculate_stock_rate_macd_basic, records, stock_index, start_date, end_date, 0, 0, to_table)
-
-        # 计算MACD底背离买入，macd死叉卖出收益率
-        #calculat_stock_ma_rate(calculate_stock_rate_macd_deviation, records, stock_index, start_date, end_date, 1, 1, to_table)
-
-        # 计算九转低九后 持股N日 收益率
-        #calculat_stock_ma_rate(dig_stock_by_nigh_times, records, stock_index, start_date, end_date, 9, 9, to_table)
-        #calculat_stock_ma_rate(dig_stock_by_nigh_times, records, stock_index, start_date, end_date, 13, 13, to_table)
-
-        #计算涨跌停次数，比例
-        #calculat_stock_rate(calculat_stock_max_times, records, stock_index, 'stock_temp_rate')
-
-        #计算一段时间内最大跌幅
-        #calculat_stock_rate(calculat_stock_max_lose, records, stock_index, 'stock_temp_rate')
-
-    #如果数据为0， 则不做计算并打印
-    #else:
-        #print("Error: get ma data is 0 (%s)" % stock_index)
-
-
 
 #@log_date_time
 def analyze_result():
     operatMySQl = OperateMySQL()
+    analyze_table = 'stock_win_rate'
 
     # 大于0的数据个数
-    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate >0;")
+    operatMySQl.execute("SELECT count(*)  FROM %s where profit_rate >0;" %analyze_table)
     records = operatMySQl.fetchall()
     print("大于0：", records[0][0])
 
-    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate >0 and stock_index > 300000 and stock_index < 400000")
+    operatMySQl.execute("SELECT count(*)  FROM %s where profit_rate >0 and stock_index > 300000 and stock_index < 400000" %analyze_table)
     records = operatMySQl.fetchall()
     print("创业板：", records[0][0])
 
-    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate >0 and stock_index > 600000 and stock_index < 700000")
+    operatMySQl.execute("SELECT count(*)  FROM %s where profit_rate >0 and stock_index > 600000 and stock_index < 700000" %analyze_table)
     records = operatMySQl.fetchall()
     print("沪市：", records[0][0])
 
-    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate >0 and stock_index > 000000 and stock_index < 100000")
+    operatMySQl.execute("SELECT count(*)  FROM %s where profit_rate >0 and stock_index > 000000 and stock_index < 100000" %analyze_table)
     records = operatMySQl.fetchall()
     print("深市：", records[0][0])
 
-    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate <0 ;")
+    operatMySQl.execute("SELECT count(*)  FROM %s where profit_rate <0 ;" %analyze_table)
     records = operatMySQl.fetchall()
     print("小于0：", records[0][0])
 
-    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate <0 and stock_index > 300000 and stock_index < 400000")
+    operatMySQl.execute("SELECT count(*)  FROM %s where profit_rate <0 and stock_index > 300000 and stock_index < 400000" %analyze_table)
     records = operatMySQl.fetchall()
     print("创业板：", records[0][0])
 
-    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate <0 and stock_index > 600000 and stock_index < 700000")
+    operatMySQl.execute("SELECT count(*)  FROM %s where profit_rate <0 and stock_index > 600000 and stock_index < 700000" %analyze_table)
     records = operatMySQl.fetchall()
     print("沪市：", records[0][0])
 
-    operatMySQl.execute("SELECT count(*)  FROM stock_ma_rate where profit_rate <0 and stock_index > 000000 and stock_index < 100000")
+    operatMySQl.execute("SELECT count(*)  FROM %s where profit_rate <0 and stock_index > 000000 and stock_index < 100000" %analyze_table)
     records = operatMySQl.fetchall()
     print("深市：", records[0][0])
 
@@ -202,7 +97,6 @@ def process_calculate_stock(start_date, end_date, from_table, to_table):
 
     #计算一段时间内的涨停率
     testMultiprocess.start_multi_process_job(Back_Test_Calculat_Max_Limit_Rate(start_date, end_date, from_table, 'stock_temp_rate'))
-
 
 
 ################################################## 初始化绘制窗口 ###################################################
@@ -294,7 +188,7 @@ if __name__ == '__main__':
     print('Total test execution duration is %s.' % (timedelta.__str__()))
 
     #结果
-    #analyze_result()
+    analyze_result()
 
     if(draw_plot == True):
         #ax1.set_ylim(ymax=max_rate + 2, ymin=-6)
