@@ -5,18 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e30d405-2221-467c-ae45-fbb5b825fd1e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/stock_rule/back_test/back_test_calculate_stock_rate_ma_basic.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test.py" afterPath="$PROJECT_DIR$/Test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/back_test.py" afterPath="$PROJECT_DIR$/back_test.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/init_sql.py" afterPath="$PROJECT_DIR$/init_sql.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/mysql_script.txt" afterPath="$PROJECT_DIR$/script/mysql_script.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stock_rule/back_test/back_test_calculat_stock_max_lose.py" afterPath="$PROJECT_DIR$/stock_rule/back_test/back_test_calculat_stock_max_lose.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stock_rule/back_test/back_test_low_nigh_times.py" afterPath="$PROJECT_DIR$/stock_rule/back_test/back_test_low_nigh_times.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stock_rule/back_test/back_test_stock_rate_macd_basic.py" afterPath="$PROJECT_DIR$/stock_rule/back_test/back_test_stock_rate_macd_basic.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stock_rule/back_test/back_test_stock_rate_macd_deviation.py" afterPath="$PROJECT_DIR$/stock_rule/back_test/back_test_stock_rate_macd_deviation.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/multi_processes.py" afterPath="$PROJECT_DIR$/util/multi_processes.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/operate_mysql.py" afterPath="$PROJECT_DIR$/util/operate_mysql.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/process_job.py" afterPath="$PROJECT_DIR$/util/process_job.py" />
     </list>
     <ignored path="stock.iws" />
@@ -86,8 +74,8 @@
       <file leaf-file-name="process_job.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/util/process_job.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="45" column="39" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="39" />
+            <state relative-caret-position="209">
+              <caret line="38" column="56" selection-start-line="38" selection-start-column="56" selection-end-line="38" selection-end-column="56" />
               <folding>
                 <element signature="e#99#121#0" expanded="true" />
               </folding>
@@ -1006,8 +994,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/util/process_job.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="45" column="39" selection-start-line="45" selection-start-column="39" selection-end-line="45" selection-end-column="39" />
+        <state relative-caret-position="209">
+          <caret line="38" column="56" selection-start-line="38" selection-start-column="56" selection-end-line="38" selection-end-column="56" />
           <folding>
             <element signature="e#99#121#0" expanded="true" />
           </folding>

@@ -36,7 +36,7 @@ class Process_Job(object):
 
         # 插入数据库
         operatMySQl = OperateMySQL()
-        sqli = "insert into {0} values ('{1}',{2},{3}\"{4}\",{5},{6},{7},{8});"
+        sqli = "insert into {0} values ('{1}','{2}',{3},\"{4}\",{5},{6},{7},{8});"
         sqlm = sqli.format(to_table, stock_index,key_condition, deal_days, launch_date, limit_up_times, limit_up_times_rate,
                            limit_down_times, limit_down_times_rate)
         try:
