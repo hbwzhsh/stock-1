@@ -7,7 +7,7 @@ __author__ = 'Yuechen Yang'
 
 from util.operate_mysql import *
 from util.process_job import *
-from init_sql import *
+from util.common import *
 
 class Back_Test_Stock_Rate_Macd_Basic(Process_Job):
     ####################################### MACD金叉买入，MACD死叉卖出 #################################################

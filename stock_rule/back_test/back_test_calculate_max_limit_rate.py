@@ -7,7 +7,7 @@ __author__ = 'Yuechen Yang'
 
 from util.operate_mysql import *
 from util.process_job import *
-from init_sql import *
+from util.common import *
 
 class Back_Test_Calculat_Max_Limit_Rate(Process_Job):
     ########################################################################################################################
@@ -34,7 +34,7 @@ class Back_Test_Calculat_Max_Limit_Rate(Process_Job):
             limit_down_times / index)
 
     def process(self, start_date, end_date, from_table, to_table, stock_index, index, list_len):
-        self.process_calculat_stock_rate(self.calculat_stock_max_limit, 'max limit', start_date, end_date, from_table,
+        super().process_calculat_stock_rate(self.calculat_stock_max_limit, 'max limit', start_date, end_date, from_table,
                            to_table, stock_index, index, list_len)
 
     def __init__(self, start_date, end_date, from_table, to_table):

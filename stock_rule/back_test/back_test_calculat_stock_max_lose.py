@@ -7,7 +7,7 @@ __author__ = 'Yuechen Yang'
 
 from util.operate_mysql import *
 from util.process_job import *
-from init_sql import *
+from util.common import *
 
 class Back_Test_Calculat_Stock_Max_Lose(Process_Job):
     ###################################### 计算一段时间内最大跌幅  ################################################

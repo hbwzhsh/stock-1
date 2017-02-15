@@ -17,6 +17,7 @@ from stock_rule.back_test.back_test_calculat_stock_max_lose import *
 from stock_rule.back_test.back_test_calculate_stock_rate_ma_basic import *
 from stock_rule.back_test.back_test_calculate_max_limit_rate import *
 from util.dateu import *
+from util.multi_processes import *
 
 #################################################### 初始化股票列表 ####################################################
 def init_stock_list_for_convert():
@@ -92,6 +93,7 @@ def process_calculate_stock(start_date, end_date, from_table, to_table):
     #testMultiprocess.start_multi_process_job(Back_Test_Calculate_Stock_Rate_MA_Basic(start_date, end_date, from_table, to_table, buy_ma =2, sell_ma=2))
 
 
+    clear_table('stock_temp_rate')  #清除数据
     # 计算一段时间内最大跌幅
     #testMultiprocess.start_multi_process_job(Back_Test_Calculat_Stock_Max_Lose(start_date, end_date, from_table, 'stock_temp_rate'))
 
@@ -143,7 +145,7 @@ if __name__ == '__main__':
     print('Start time is %s.' % (str(datetime.datetime.now())))
     start_date_list = []
     end_date_list   = []
-    start_date_list.append('2015-6-1')   # 起始日期
+    start_date_list.append('2015-5-1')   # 起始日期
     today = datetime.date.today().strftime("%Y-%m-%d")
     end_date_list.append(today)   # 结束日期
     '''

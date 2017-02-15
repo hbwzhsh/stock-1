@@ -7,7 +7,7 @@ __author__ = 'Yuechen Yang'
 
 from util.operate_mysql import *
 from util.process_job import *
-from init_sql import *
+from util.common import *
 
 class Back_Test_Calculate_Stock_Rate_MA_Basic(Process_Job):
     ####################################### 收盘价大于MA 买入，小于MA卖出 #################################################
