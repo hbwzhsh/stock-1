@@ -30,7 +30,7 @@ class Back_Test_Calculat_Stock_Max_Lose(Process_Job):
 
 
     def process(self, start_date, end_date, from_table, to_table, stock_index, index, list_len):
-        self.process_calculat_stock_rate(self.calculat_stock_max_lose, 'max lost', start_date, end_date, from_table,
+        super().process_calculat_stock_rate(self.calculat_stock_max_lose, 'max lost', start_date, end_date, from_table,
                            to_table, stock_index, index, list_len)
 
     def __init__(self, start_date, end_date, from_table, to_table):

@@ -39,7 +39,7 @@ class Back_Test_Calculate_Stock_Rate_MA_Basic(Process_Job):
         return buy_stock_list, sell_stock_list
 
     def process(self, start_date, end_date, from_table, to_table, stock_index, index, list_len):
-        self.process_back_test(self.calculate_stock_rate_ma_basic, 'MA%s' %self.__buy_ma, start_date, end_date,
+        super().process_back_test(self.calculate_stock_rate_ma_basic, 'MA%s' %self.__buy_ma, start_date, end_date,
                                from_table, to_table, stock_index, index, list_len)
 
 

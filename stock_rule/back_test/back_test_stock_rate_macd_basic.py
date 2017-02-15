@@ -38,8 +38,7 @@ class Back_Test_Stock_Rate_Macd_Basic(Process_Job):
 
 
     def process(self, start_date, end_date, from_table, to_table, stock_index, index, list_len):
-
-        self.process_back_test(self.calculate_stock_rate_macd_basic, 'macd basic', start_date, end_date,
+        super().process_back_test(self.calculate_stock_rate_macd_basic, 'macd basic', start_date, end_date,
                                from_table, to_table, stock_index, index, list_len)
 
 

@@ -121,7 +121,7 @@ class Back_Test_Stock_Rate_Macd_Deviation(Process_Job):
         return buy_stock_list, sell_stock_list
 
     def process(self, start_date, end_date, from_table, to_table, stock_index, index, list_len):
-        self.process_back_test(self.calculate_stock_rate_macd_deviation, 'macd deviation', start_date, end_date, from_table,
+        super().process_back_test(self.calculate_stock_rate_macd_deviation, 'macd deviation', start_date, end_date, from_table,
                            to_table, stock_index, index, list_len)
 
     def __init__(self, start_date, end_date, from_table, to_table):

@@ -62,7 +62,7 @@ class Back_Test_Low_Nigh_Times(Process_Job):
 
 
     def process(self, start_date, end_date, from_table, to_table, stock_index, index, list_len):
-        self.process_back_test(self.dig_stock_by_nigh_times, 'low 9', start_date, end_date, from_table,
+        super().process_back_test(self.dig_stock_by_nigh_times, 'low 9', start_date, end_date, from_table,
                            to_table, stock_index, index, list_len)
 
     def __init__(self, start_date, end_date, from_table, to_table):
