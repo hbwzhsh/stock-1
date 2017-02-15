@@ -8,8 +8,9 @@ __author__ = 'Yuechen Yang'
 from util.operate_mysql import *
 from util.process_job import *
 import os
+from util.multi_processes import *
 
-class Convert_TDX_2_Mysql(Process_Job):
+class Convert_TDX_2_Mysql(Process_Job, Multi_Processes):
 
     def process(self,stock_dir, mysql_table_name, stock_file_name, index, list_len):
         operatMySQl = OperateMySQL()

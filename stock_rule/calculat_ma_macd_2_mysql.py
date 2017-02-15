@@ -8,8 +8,9 @@ __author__ = 'Yuechen Yang'
 from util.operate_mysql import *
 from util.process_job import *
 from util.common import *
+from util.multi_processes import *
 
-class Calculat_MA_MACD_2_Mysql(Process_Job):
+class Calculat_MA_MACD_2_Mysql(Process_Job, Multi_Processes):
 
     ########################################### 从数据库中获取股票列表数据 #################################################
     def get_stock_index_list_from_mysql(self, source_index_list_table_name):

@@ -7,9 +7,12 @@ __author__ = 'Yuechen Yang'
 
 from util.operate_mysql import *
 from util.process_job import *
+from util.multi_processes import *
 from util.common import *
 
-class Back_Test_Stock_Rate_Macd_Deviation(Process_Job):
+class Back_Test_Stock_Rate_Macd_Deviation(Process_Job, Multi_Processes):
+
+    __slots__ = ('__start_date', '__end_date', '__from_table', '__to_table')  # 用tuple定义允许绑定的属性名称
 
     #################################### 计算MACD底背离买入，macd死叉卖出收益率 ############################################
     def calculate_stock_rate_macd_deviation(self, records):
@@ -126,15 +129,4 @@ class Back_Test_Stock_Rate_Macd_Deviation(Process_Job):
 
     def __init__(self, start_date, end_date, from_table, to_table):
         # 初始化本策略参数
-        self.__start_date = start_date   #开始时间
-        self.__end_date   = end_date     #结束时间
-        self.__from_table = from_table   # 数据源
-        self.__to_table   = to_table     # 目标表
-        return
-
-    def get_list(self):
-        return get_stock_index_list_from_mysql(self.__from_table)
-
-    def get_args(self):
-        return self.__start_date, self.__end_date, self.__from_table, self.__to_table
-
+        super().__init__(start_date, end_date, from_table, to_table)

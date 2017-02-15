@@ -8,8 +8,9 @@ __author__ = 'Yuechen Yang'
 from util.operate_mysql import *
 from util.process_job import *
 from util.common import *
+from util.multi_processes import *
 
-class Back_Test_Calculat_Max_Limit_Rate(Process_Job):
+class Back_Test_Calculat_Max_Limit_Rate(Process_Job, Multi_Processes):
     ########################################################################################################################
     #########################################         回测涨停率        ####################################################
     ########################################################################################################################
@@ -39,15 +40,6 @@ class Back_Test_Calculat_Max_Limit_Rate(Process_Job):
 
     def __init__(self, start_date, end_date, from_table, to_table):
         # 初始化本策略参数
-        self.__start_date = start_date   #开始时间
-        self.__end_date   = end_date     #结束时间
-        self.__from_table = from_table   # 数据源
-        self.__to_table   = to_table     # 目标表
-        return
+        super().__init__(start_date, end_date, from_table, to_table)
 
-    def get_list(self):
-        return get_stock_index_list_from_mysql(self.__from_table)
-
-    def get_args(self):
-        return self.__start_date, self.__end_date, self.__from_table, self.__to_table
 

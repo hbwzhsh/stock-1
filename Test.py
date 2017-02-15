@@ -6,7 +6,6 @@ from stock_rule.dig_stock_by_nigh_times import *
 from util.operate_mysql import *
 
 if __name__ == '__main__':
-    testMultiprocess = Multi_Processes()
     init_database = Convert_TDX_2_Mysql(stock_dir ="d:\\Stock_Data\\",  mysql_table_name = 'stock_raw_data')
     calculat_ma_macd = Calculat_MA_MACD_2_Mysql( from_table_name = 'stock_raw_data', to_talbe_name = 'stock_ma_macd')
 
@@ -35,23 +34,28 @@ if __name__ == '__main__':
                                                            end_date=datetime.date.today().strftime("%Y-%m-%d"),
                                                            from_table='stock_ma_macd',
                                                            to_table='stock_win_rate')
+
+    print(back_test_stock_rate_macd_deviation)
+    back_test_low_nigh_times
+
+
     # 使用多进程转化通达信普通股票数据插入数据库
-    #testMultiprocess.start_multi_process_job(init_database)
+    #init_database.run_multi_process_job()
 
     # 使用多进程计算普通股票MA/MACD数据并插入数据库
-    #testMultiprocess.start_multi_process_job(calculat_ma_macd)
+    #calculat_ma_macd.run_multi_process_job()
 
     # 挖掘九转出低九
-    #testMultiprocess.start_multi_process_job(dig_stock_by_nig_times)
+    #dig_stock_by_nig_times.run_multi_process_job()
 
     # 挖掘MACD底背离
-    #testMultiprocess.start_multi_process_job(dig_stock_by_macd_low_deviation)
+    #dig_stock_by_macd_low_deviation.run_multi_process_job()
 
     # 计算一段时间内最大跌幅
-    #testMultiprocess.start_multi_process_job(back_test_max_lose)
+    #back_test_max_lose.run_multi_process_job()
 
     # 九转回测
-    #testMultiprocess.start_multi_process_job(back_test_low_nigh_times)
+    #back_test_low_nigh_times.run_multi_process_job()
     
     #MACD 底背离回测
-    testMultiprocess.start_multi_process_job(back_test_stock_rate_macd_deviation)
+    #back_test_stock_rate_macd_deviation.run_multi_process_job()

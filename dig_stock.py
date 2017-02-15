@@ -34,7 +34,7 @@ if __name__ == '__main__':
         #testMultiprocess.start_multi_process_job(Dig_Stock_By_Nigh_Times(start_date, end_date, from_table, to_table))
 
         # 挖掘MACD底背离
-        testMultiprocess.start_multi_process_job(Dig_Stock_By_Macd_Low_Deviation(start_date, end_date, from_table, to_table))
+        Dig_Stock_By_Macd_Low_Deviation(start_date, end_date, from_table, to_table).run_multi_process_job()
 
     # 程序结束时间 及 耗时
     timedelta = datetime.datetime.now() - starttime

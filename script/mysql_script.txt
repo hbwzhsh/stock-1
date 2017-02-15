@@ -20,7 +20,6 @@ CREATE TABLE stock_raw_data
 
 
 DROP TABLE stock_ma_macd;
-
 CREATE TABLE stock_ma_macd
 ( 
  stock_index varchar(6) not null,

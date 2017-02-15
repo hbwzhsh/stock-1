@@ -134,15 +134,16 @@ if __name__ == '__main__':
     starttime = datetime.datetime.now()
     print('Start time is %s.' % (str(datetime.datetime.now())))
 
-    testMultiprocess = Multi_Processes()
     init_database = Convert_TDX_2_Mysql(stock_dir ="d:\\Stock_Data\\",  mysql_table_name = 'stock_raw_data')
     calculat_ma_macd = Calculat_MA_MACD_2_Mysql( from_table_name = 'stock_raw_data', to_talbe_name = 'stock_ma_macd')
 
+    clear_table('stock_raw_data')  # 清除数据
     # 使用多进程转化通达信普通股票数据插入数据库
-    testMultiprocess.start_multi_process_job(init_database)
+    init_database.run_multi_process_job()
 
+    clear_table('stock_ma_macd')  # 清除数据
     # 使用多进程计算普通股票MA/MACD数据并插入数据库
-    testMultiprocess.start_multi_process_job(calculat_ma_macd)
+    calculat_ma_macd.run_multi_process_job()
 
 
     # 使用多进程转化通达信指数及基金数据插入数据库

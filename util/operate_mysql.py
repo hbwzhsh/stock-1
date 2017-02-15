@@ -11,8 +11,6 @@ import pymysql
 
 
 class OperateMySQL(object):
-    #conn = None
-    #cur  = None
 
     def __init__(self):
         self.__class__.conn = pymysql.connect(user=vs.MYSQL_USER_NAME, host=vs.MYSQL_HOST, passwd=vs.MYSQL_USER_PASSWD, db=vs.MYSQL_DB_NAME, charset=vs.MYSQL_CHARSET)

@@ -8,8 +8,9 @@ __author__ = 'Yuechen Yang'
 from util.operate_mysql import *
 from util.process_job import *
 from util.common import *
+from util.multi_processes import *
 
-class Back_Test_Low_Nigh_Times(Process_Job):
+class Back_Test_Low_Nigh_Times(Process_Job, Multi_Processes):
 
     ############################################# 九转选股之日线低9  #######################################################
     def dig_stock_by_nigh_times(self,records, times=13, continuous_ref_times=4):
@@ -66,16 +67,5 @@ class Back_Test_Low_Nigh_Times(Process_Job):
                            to_table, stock_index, index, list_len)
 
     def __init__(self, start_date, end_date, from_table, to_table):
-        # 初始化本策略参数
-        self.__start_date = start_date   #开始时间
-        self.__end_date   = end_date     #结束时间
-        self.__from_table = from_table   # 数据源
-        self.__to_table   = to_table     # 目标表
-        return
-
-    def get_list(self):
-        return get_stock_index_list_from_mysql(self.__from_table)
-
-    def get_args(self):
-        return self.__start_date, self.__end_date, self.__from_table, self.__to_table
+        super().__init__(start_date, end_date, from_table, to_table)
 

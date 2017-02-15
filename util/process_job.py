@@ -10,20 +10,70 @@ from util import vars as vs
 from util.operate_mysql import *
 
 class Process_Job(object):
-    def __init__(self):
-        pass
-
     def __del__(self):
         pass
 
-    def get_list(self):
-        pass
-
-    def get_args(self):
-        pass
+    def __iter__(self):
+        return self # 实例本身就是迭代对象，故返回自己
 
     def process(self):
         pass
+
+    #定制打印信息
+    def __str__(self):
+        return '%s(start_date: %s,end_date: %s, from_table: %s, to_table: %s)' \
+               % (self.__class__.__name__,self.start_date, self.end_date, self.from_table, self.to_table)
+    __repr__ = __str__
+
+    def __init__(self, start_date, end_date, from_table, to_table):
+        # 初始化本策略参数
+        self.__start_date = start_date   #开始时间
+        self.__end_date   = end_date     #结束时间
+        self.__from_table = from_table   # 数据源
+        self.__to_table   = to_table     # 目标表
+        return
+
+    def get_list(self):
+        return get_stock_index_list_from_mysql(self.__from_table)
+
+    def get_args(self):
+        return self.__start_date, self.__end_date, self.__from_table, self.__to_table
+
+    # 开始时间
+    @property
+    def start_date(self):
+        return self.__start_date
+
+    @start_date.setter
+    def start_date(self, start_date):
+        self.__start_date = start_date
+
+    # 结束时间
+    @property
+    def end_date(self):
+        return self.__end_date
+
+    @end_date.setter
+    def end_date(self, end_date):
+        self.__end_date = end_date
+
+    # 数据源
+    @property
+    def from_table(self):
+        return self.__from_table
+
+    @from_table.setter
+    def from_table(self, from_table):
+        self.__from_table = from_table
+
+    # 目标表
+    @property
+    def to_table(self):
+        return self.__to_table
+
+    @to_table.setter
+    def to_table(self, to_table):
+        self.__to_table = to_table
 
     ###################################### 回测数据 ################################################
     def process_calculat_stock_rate(self, function, key_condition, start_date, end_date, from_table, to_table, stock_index, index, list_len):

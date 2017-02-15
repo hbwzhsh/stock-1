@@ -8,8 +8,9 @@ __author__ = 'Yuechen Yang'
 from util.operate_mysql import *
 from util.process_job import *
 from util.common import *
+from util.multi_processes import *
 
-class Back_Test_Calculate_Stock_Rate_MA_Basic(Process_Job):
+class Back_Test_Calculate_Stock_Rate_MA_Basic(Process_Job, Multi_Processes):
     ####################################### 收盘价大于MA 买入，小于MA卖出 #################################################
     def calculate_stock_rate_ma_basic(self, records):
         buy_stock_list = []  # 买入列表
@@ -45,18 +46,7 @@ class Back_Test_Calculate_Stock_Rate_MA_Basic(Process_Job):
 
     def __init__(self, start_date, end_date, from_table, to_table, buy_ma, sell_ma):
         # 初始化本策略参数
-        self.__start_date = start_date   #开始时间
-        self.__end_date   = end_date     #结束时间
-        self.__from_table = from_table   # 数据源
-        self.__to_table   = to_table     # 目标表
-
+        super().__init__(start_date, end_date, from_table, to_table)
         self.__buy_ma     = buy_ma       #大于buy_ma买入
         self.__sell_ma    = sell_ma      #小于buy_ma卖出
         return
-
-    def get_list(self):
-        return get_stock_index_list_from_mysql(self.__from_table)
-
-    def get_args(self):
-        return self.__start_date, self.__end_date, self.__from_table, self.__to_table
-
