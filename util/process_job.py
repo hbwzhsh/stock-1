@@ -89,12 +89,7 @@ class Process_Job(object):
         sqli = "insert into {0} values ('{1}','{2}',{3},\"{4}\",{5},{6},{7},{8});"
         sqlm = sqli.format(to_table, stock_index,key_condition, deal_days, launch_date, limit_up_times, limit_up_times_rate,
                            limit_down_times, limit_down_times_rate)
-        try:
-            operatMySQl.execute(sqlm)
-            # print(sqlm)
-        except:
-            print("Insert Error", sqlm)
-
+        operatMySQl.execute(sqlm)
         operatMySQl.commit()
         return
 
@@ -161,10 +156,7 @@ class Process_Job(object):
                            buy_count, sell_count, win_times, lose_times, win_rate,
                            round(max_single_win_rate, 3), max_rate_buy_date, max_rate_sell_date,
                            round(max_single_lose_rate, 3), max_lose_rate_buy_date, max_lose_rate_sell_date)
-        try:
-            operatMySQl.execute(sqlm)
-        except:
-            print("Insert Error", sqlm)
 
+        operatMySQl.execute(sqlm)
         operatMySQl.commit()
         return

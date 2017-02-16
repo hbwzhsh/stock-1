@@ -30,10 +30,16 @@ class OperateMySQL(object):
         return self.__class__.conn, self.__class__.cur
 
     def execute(self,sql):
-        # print(sql)
         #if self.__class__.conn == None or self.__class__.cur == None:
-        #    print("DB execute error")
-        self.__class__.cur.execute(sql)
+        try:
+            self.__class__.cur.execute(sql)
+            # print(sqlm)
+        except:
+            print("Execute Error", sql)
+        finally:
+            pass
+        return
+
 
     def fetchall(self):
         #if self.__class__.conn == None or self.__class__.cur == None:
