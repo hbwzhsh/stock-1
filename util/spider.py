@@ -4,6 +4,7 @@ import urllib
 from urllib.request import *
 import urllib.request
 import re
+import jieba
 
 urlre = re.compile(r'(http://[^/\\]+)', re.I)
 hrefre = re.compile(r'<a href=".*?<\/a>', re.I)
@@ -63,10 +64,27 @@ def parase_url_content(url):
         if(content_re1.match(item)):
             print(item)
     '''
+    text = ''
     for item in content_list:
         print(item[1].strip())
+        text = item[1].strip()
+        default_mode = jieba.cut(text)
+        print("精确模式:", " ".join(default_mode))
 
 if __name__ == '__main__':
     parase_url_content('http://blog.sina.com.cn/s/blog_48874cec0102x4zm.html')
     #for index in range(1,3):
     #    parase_url_from_list("http://blog.sina.com.cn/s/articlelist_1216826604_0_%s.html" %index)
+
+    '''
+    text    =    '我来到北京清华大学'
+
+    default_mode  =    jieba.cut(text)
+    full_mode     =    jieba.cut(text, cut_all=True)
+    search_mode   =    jieba.cut_for_search(text)
+
+
+    print("精确模式:", "/".join(default_mode))
+    print("全模式:", "/".join(full_mode))
+    print("搜索引擎模式:", "/".join(search_mode))
+    '''
