@@ -13,16 +13,29 @@ import pymysql
 class OperateMySQL(object):
 
     def __init__(self):
-        self.__class__.conn = pymysql.connect(user=vs.MYSQL_USER_NAME, host=vs.MYSQL_HOST, passwd=vs.MYSQL_USER_PASSWD, db=vs.MYSQL_DB_NAME, charset=vs.MYSQL_CHARSET)
-        self.__class__.cur = self.__class__.conn.cursor()
+        try:
+            self.__class__.conn = pymysql.connect(user=vs.MYSQL_USER_NAME, host=vs.MYSQL_HOST, passwd=vs.MYSQL_USER_PASSWD, db=vs.MYSQL_DB_NAME, charset=vs.MYSQL_CHARSET)
+            self.__class__.cur = self.__class__.conn.cursor()
+        except:
+            print("Init mysql operater Error")
+        finally:
+            pass
+
+        return
 
     def __del__(self):
-        if self.__class__.cur:
-            self.__class__.cur.close()
-            self.__class__.cur = None
-        if self.__class__.conn:
-            self.__class__.conn.close()
-            self.__class__.conn = None
+        try:
+            if self.__class__.cur:
+                self.__class__.cur.close()
+                self.__class__.cur = None
+            if self.__class__.conn:
+                self.__class__.conn.close()
+                self.__class__.conn = None
+        except:
+            print("Del mysql operater Error")
+        finally:
+            pass
+        return
 
     def get_operater(self):
         #if self.__class__.conn == None or self.__class__.cur == None:

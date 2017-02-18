@@ -105,16 +105,7 @@ create table stock_temp_rate
  PRIMARY KEY(stock_index, key_condition)
 );
 
-DROP TABLE stock_detail;
-create table stock_detail
-(
- stock_index varchar(6) not null,
- stock_name  varchar(8) not null,
- stock_industry varchar(20) ,
- stock_concept  varchar(100),
- launch_date    date,
- PRIMARY KEY(stock_index)
-);
+
 
 
 DROP TABLE stock_basic;
@@ -135,7 +126,7 @@ create table stock_basic
  esp	 float  not null,
  bvps	 float  not null,
  pb	     float  not null,
- timeToMarket	float  not null, 
+ timeToMarket	date  not null, 
  undp	 float  not null,
  perundp float  not null,	
  rev	 float  not null,
@@ -143,6 +134,7 @@ create table stock_basic
  gpr	 float  not null,
  npr	 float  not null,
  holders float  not null,
+ stock_concept  varchar(100),
  PRIMARY KEY(stock_index)
 );
 
