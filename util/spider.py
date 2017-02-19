@@ -100,7 +100,7 @@ def generat_user_dict_into_db():
     operatMySQl.commit()
 
     # 更新股票字典数据库从自定义字典文件
-    file_object = open('d:\\stock_dict.txt', 'r')
+    file_object = open('D:\\my_stock\\stock\\script\\stock_dict.txt', 'r')
     content = file_object.read() #.decode('utf-8')
     file_object.close()
     stock_list = content.split('\n')
@@ -129,7 +129,10 @@ def generat_user_dict_from_db():
 
 
 if __name__ == '__main__':
-    #generat_user_dict_from_db()
+    #生成分词字典
+    if 1:
+        generat_user_dict_into_db()
+        generat_user_dict_from_db()
 
     clear_table('words_temp')  # 清除数据
     jieba.load_userdict("d:\\userdict.txt")
@@ -140,7 +143,7 @@ if __name__ == '__main__':
     #解析链接List，获取每个链接
     urls = []
     words_list = []
-    for index in range(1,100):
+    for index in range(1,345):
         urls.extend(parase_url_from_list("http://blog.sina.com.cn/s/articlelist_1216826604_0_%s.html" %index))
     #print(urls)
     # 解析每个链接，获取文本内容
