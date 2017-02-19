@@ -20,63 +20,10 @@ from stock_rule.calculat_ma_macd_2_mysql import *
 
 
 ####################################### 从拔地兔获取股票详细数据插入数据库 #############################################
-def init_stock_detail_info_to_mysql(source_index_list_table_name, to_table_name):
-    stock_list = get_stock_index_list_from_mysql(source_index_list_table_name)
-
-    operatMySQl = OperateMySQL()
-
-    df_industry = ts.get_industry_classified()
-    df_concept = ts.get_concept_classified()
-
-    index = 0
-    #print(len(df_industry.iterrows()))
-    #print(len(df_concept.iterrows()))
-    for stock_index in stock_list:
-        concept = []       #所属概念
-        index = index + 1
-        stock_name = ""    #股票名称
-        industry = ""      #所属行业
-        for row in df_industry.iterrows():
-            value= row[1]
-            code = value[0]
-            name = value[1]
-            c_name = value[2]
-            if(stock_index == code):
-                stock_name = name
-                industry   = c_name
-                break
-
-        for row in df_concept.iterrows():
-            value = row[1]
-            code = value[0]
-            name = value[1]
-            c_name = value[2]
-            if(stock_index == code):
-                if(len(stock_name)<2):
-                    stock_name = name
-                concept.append(c_name)
-        if (len(stock_name) < 2):
-            df = ts.get_realtime_quotes(stock_index)
-            stock_name = str(df['name'].values[0])
-        sqli = "insert into {0} values ('{1}','{2}','{3}','{4}');"
-        sqlm = sqli.format(to_table_name, stock_index, stock_name, industry, ",".join(concept))
-        print(index, sqlm)
-        if(len(stock_name)>2):
-            try:
-                operatMySQl.execute(sqlm)
-                operatMySQl.commit()
-                # print(sqlm)
-            except Exception as e:
-                print("Insert DB Error", e, sqlm)
-        else:
-            print("Parameter Error: %s" %sqlm)
-
-
 def init_stock_basic_info_to_mysql(source_index_list_table_name, to_table_name):
     operatMySQl = OperateMySQL()
 
     df_basic = ts.get_stock_basics()
-    #df_industry = ts.get_industry_classified()
     df_concept = ts.get_concept_classified()
 
     for stock_index,stock_basic in df_basic.iterrows():
@@ -143,29 +90,30 @@ if __name__ == '__main__':
     starttime = datetime.datetime.now()
     print('Start time is %s.' % (str(datetime.datetime.now())))
 
-    '''
-    init_database = Convert_TDX_2_Mysql(stock_dir ="d:\\Stock_Data\\",  mysql_table_name = 'stock_raw_data')
-    calculat_ma_macd = Calculat_MA_MACD_2_Mysql( from_table_name = 'stock_raw_data', to_talbe_name = 'stock_ma_macd')
+    if 1:
+        init_database = Convert_TDX_2_Mysql(stock_dir ="d:\\Stock_Data\\",  mysql_table_name = 'stock_raw_data')
+        calculat_ma_macd = Calculat_MA_MACD_2_Mysql( from_table_name = 'stock_raw_data', to_talbe_name = 'stock_ma_macd')
 
-    clear_table('stock_raw_data')  # 清除数据
-    # 使用多进程转化通达信普通股票数据插入数据库
-    init_database.run_multi_process_job()
+        clear_table('stock_raw_data')  # 清除数据
+        # 使用多进程转化通达信普通股票数据插入数据库
+        init_database.run_multi_process_job()
 
-    clear_table('stock_ma_macd')  # 清除数据
-    # 使用多进程计算普通股票MA/MACD数据并插入数据库
-    calculat_ma_macd.run_multi_process_job()
-    '''
+        clear_table('stock_ma_macd')  # 清除数据
+        # 使用多进程计算普通股票MA/MACD数据并插入数据库
+        calculat_ma_macd.run_multi_process_job()
+
 
     # 使用多进程转化通达信指数及基金数据插入数据库
     #multi_process_convert_tdx_to_mysql("d:\\Stock_Data\\", 'stock_index_raw_data')
     # 使用多进程计算指数及基金MA数据并插入数据库
     #multi_process_calculat_ma_to_mysql('stock_index_raw_data','stock_index_ma' )
 
-    clear_table('stock_detail')  # 清除数据
-    clear_table('stock_basic')  # 清除数据
+
     #获取股票名称 及 所属行业 概念等
-    #init_stock_detail_info_to_mysql('stock_raw_data', 'stock_detail')
-    init_stock_basic_info_to_mysql('stock_raw_data', 'stock_basic')
+    if 0:
+        clear_table('stock_detail')  # 清除数据
+        clear_table('stock_basic')  # 清除数据
+        init_stock_basic_info_to_mysql('stock_raw_data', 'stock_basic')
 
     #test()
 

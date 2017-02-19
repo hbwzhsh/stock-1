@@ -24,17 +24,19 @@ class OperateMySQL(object):
         return
 
     def __del__(self):
+        #'''
         try:
-            if self.__class__.cur:
-                self.__class__.cur.close()
-                self.__class__.cur = None
-            if self.__class__.conn:
-                self.__class__.conn.close()
-                self.__class__.conn = None
+            #if self.__class__.cur is not None:
+            self.__class__.cur.close()
+                #self.__class__.cur = None
+            #if self.__class__.conn is not None:
+            self.__class__.conn.close()
+                #self.__class__.conn = None
         except:
             print("Del mysql operater Error")
         finally:
             pass
+        #'''
         return
 
     def get_operater(self):

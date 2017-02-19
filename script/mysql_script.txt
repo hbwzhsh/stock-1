@@ -105,9 +105,6 @@ create table stock_temp_rate
  PRIMARY KEY(stock_index, key_condition)
 );
 
-
-
-
 DROP TABLE stock_basic;
 create table stock_basic
 (
@@ -137,6 +134,25 @@ create table stock_basic
  stock_concept  varchar(100),
  PRIMARY KEY(stock_index)
 );
+
+
+DROP TABLE stock_dict;
+CREATE TABLE stock_dict
+( 
+ words_content varchar(100) not null,
+ PRIMARY KEY(words_content)
+);
+
+DROP TABLE words_temp;
+CREATE TABLE words_temp
+( 
+ words_content varchar(100) not null,
+ words_number  int not null,
+ PRIMARY KEY(words_content)
+);
+
+
+
 
 DROP TABLE stock_basic;
 create table stock_basic

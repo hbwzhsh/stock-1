@@ -9,6 +9,7 @@ import urllib
 from urllib.request import *
 import urllib.request
 import re
+import codecs
 
 def test_chelv():
 
@@ -62,6 +63,60 @@ def test_chelv():
     # MACD 底背离回测
     # back_test_stock_rate_macd_deviation.run_multi_process_job()
 
-if __name__ == '__main__':
+def generat_user_dict_into_db():
+    #更新股票字典数据库从股票基本数据
+    clear_table('stock_dict')  # 清除数据
+    operatMySQl = OperateMySQL()
+    operatMySQl.execute("SELECT *  FROM stock_basic")
+    records = operatMySQl.fetchall()
+    for row in records:
+        stock_index    = row[0]  #股票代码
+        stock_name     = row[1]  #股票名称
+        stock_industry = row[2]  #股票行业
+        stock_concept  = row[23] #股票概念
+        sqli = "insert into stock_dict values ('{0}');"
+        sqlm = sqli.format(stock_index)
+        operatMySQl.execute(sqlm)
+        sqlm = sqli.format(stock_name)
+        operatMySQl.execute(sqlm)
+        sqlm = sqli.format(stock_industry)
+        operatMySQl.execute(sqlm)
+        concept_list= stock_concept.split(',')
+        for concept in concept_list:
+            sqlm = sqli.format(concept)
+            operatMySQl.execute(sqlm)
 
-    test_chelv()
+    operatMySQl.commit()
+
+    # 更新股票字典数据库从自定义字典文件
+    file_object = open('d:\\stock_dict.txt', 'r')
+    content = file_object.read() #.decode('utf-8')
+    file_object.close()
+    stock_list = content.split('\n')
+    for stock_dict in stock_list:
+        #print(stock_dict.strip())
+        sqli = "insert into stock_dict values ('{0}');"
+        sqlm = sqli.format(stock_dict.strip())
+        operatMySQl.execute(sqlm)
+    operatMySQl.commit()
+
+    return
+
+def generat_user_dict_from_db():
+    operatMySQl = OperateMySQL()
+    file_object = codecs.open('d:\\userdict.txt', 'w', "utf-8")
+
+    operatMySQl.execute("SELECT *  FROM stock_dict")
+    records = operatMySQl.fetchall()
+    for row in records:
+        stock_dict = row[0] + ' 1 nr\r\n'
+        file_object.write(stock_dict)
+
+    file_object.close()
+
+    return
+
+if __name__ == '__main__':
+    generat_user_dict_into_db()
+    generat_user_dict_from_db()
+    #test_chelv()
