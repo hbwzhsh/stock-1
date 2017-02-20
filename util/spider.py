@@ -9,6 +9,8 @@ from util.operate_mysql import *
 from multiprocessing.dummy import Pool as ThreadPool
 import collections
 import codecs
+import os
+
 
 urlre = re.compile(r'(http://[^/\\]+)', re.I)
 hrefre = re.compile(r'<a href=".*?<\/a>', re.I)
@@ -19,7 +21,7 @@ log_url_re = re.compile(r'<a title=\"\" target=\"_blank\" href=".*?<\/a>', re.I)
 
 title_zb   = re.compile(r'(.*)wu2198股市直播', re.I)
 content_re = re.compile(r'<p>(.*)\w+:\d\d([\w\W]*?)<\/p>', re.I)
-symbol_re  = re.compile("[\s+\.\!\/_,$%^()<>=;\"\']+|[+——！，。？、~@#￥%……&（）]+", re.I)
+symbol_re  = re.compile("[\s+\.\!\/_,$^()<>=;\"\']+|[——！，。？、~@#￥……&（）]", re.I)
 
 def parase_url_from_list(url_list):
     '''
@@ -68,11 +70,26 @@ def parase_url_content(url):
     word_list = []
     for item in content_list:
         text = symbol_re.sub(u'', item[1].strip()).upper()
-        splits = jieba.cut(text)
-        for word in splits:
-            word_list.append(word)
-
+        word_list.append(text)
     return word_list
+
+def get_content_from_url():
+    # 解析链接List，获取每个链接
+    urls = []
+    contents_list = []
+    for index in range(1, 2):
+        urls.extend(parase_url_from_list("http://blog.sina.com.cn/s/articlelist_1216826604_0_%s.html" % index))
+    # print(urls)
+    # 解析每个链接，获取文本内容
+    for url in urls:
+        contents_list.extend(parase_url_content(url))
+
+    #保存文本到文件
+    save_file = open("d:\\content.txt", "w")
+    save_file.write(str(contents_list))
+    save_file.close()
+
+    return contents_list
 
 def generat_user_dict_into_db():
     #更新股票字典数据库从股票基本数据
@@ -100,7 +117,7 @@ def generat_user_dict_into_db():
     operatMySQl.commit()
 
     # 更新股票字典数据库从自定义字典文件
-    file_object = open('D:\\my_stock\\stock\\script\\stock_dict.txt', 'r')
+    file_object = open(os.getcwd()+ '\\..\\script\\stock_dict.txt', 'r')
     content = file_object.read() #.decode('utf-8')
     file_object.close()
     stock_list = content.split('\n')
@@ -129,6 +146,7 @@ def generat_user_dict_from_db():
 
 
 if __name__ == '__main__':
+
     #生成分词字典
     if 1:
         generat_user_dict_into_db()
@@ -139,16 +157,15 @@ if __name__ == '__main__':
 
     starttime = datetime.datetime.now()
     print('Start time is %s.' % (str(datetime.datetime.now())))
+    #获取文本内容
+    contents_list = get_content_from_url()
 
-    #解析链接List，获取每个链接
-    urls = []
+    #分词
     words_list = []
-    for index in range(1,345):
-        urls.extend(parase_url_from_list("http://blog.sina.com.cn/s/articlelist_1216826604_0_%s.html" %index))
-    #print(urls)
-    # 解析每个链接，获取文本内容
-    for url in urls:
-        words_list.extend(parase_url_content(url))
+    for text in contents_list:
+        splits = jieba.cut(text)
+        for word in splits:
+            words_list.append(word)
 
     #统计分词频率，计入数据库
     counter = collections.Counter(words_list)

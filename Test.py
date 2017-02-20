@@ -11,6 +11,7 @@ import urllib.request
 import re
 import codecs
 import urllib
+import http.cookiejar
 #import cookielib
 import bs4
 
@@ -137,8 +138,8 @@ def test_login():
 
     filename = 'cookie.txt'
     # 声明一个MozillaCookieJar对象实例来保存cookie，之后写入文件
-    cookie = cookielib.MozillaCookieJar(filename)
-    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
+    cookie = http.cookiejar.CookieJar() #cookielib.MozillaCookieJar(filename)
+    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie))
     postdata = urllib.urlencode(inputData)
     result2 = opener.open("http://222.200.122.171:7771/login.aspx", postdata)
     cookie.save(ignore_discard=True, ignore_expires=True)

@@ -24,7 +24,7 @@ class OperateMySQL(object):
         return
 
     def __del__(self):
-        #'''
+        '''
         try:
             #if self.__class__.cur is not None:
             self.__class__.cur.close()
@@ -36,7 +36,7 @@ class OperateMySQL(object):
             print("Del mysql operater Error")
         finally:
             pass
-        #'''
+        '''
         return
 
     def get_operater(self):
