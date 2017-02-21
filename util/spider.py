@@ -1,15 +1,16 @@
 
-
+import os
 import urllib
 from urllib.request import *
 import urllib.request
 import re
 import jieba
 from util.operate_mysql import *
+from util.operate_mysql import clear_table as clear_table
 from multiprocessing.dummy import Pool as ThreadPool
 import collections
 import codecs
-import os
+
 
 
 urlre = re.compile(r'(http://[^/\\]+)', re.I)
@@ -21,7 +22,7 @@ log_url_re = re.compile(r'<a title=\"\" target=\"_blank\" href=".*?<\/a>', re.I)
 
 title_zb   = re.compile(r'(.*)wu2198股市直播', re.I)
 content_re = re.compile(r'<p>(.*)\w+:\d\d([\w\W]*?)<\/p>', re.I)
-symbol_re  = re.compile("[\s+\.\!\/_,$^()<>=;\"\']+|[——！，。？、~@#￥……&（）]", re.I)
+symbol_re  = re.compile("[\s+\.\\\!\/_,$^()<>=;%\"\']+|[—— ！，。？、~@#￥……&（）]", re.I)
 
 def parase_url_from_list(url_list):
     '''
@@ -29,7 +30,6 @@ def parase_url_from_list(url_list):
         sinablog url include two rule:
         1)http://blog.sina.com.cn/xxxxx
         2)http://blog.sina.com.cn/x/xxxxxx
-
     '''
     # urlmatch = urlre.match(websize)
     urllist = []
@@ -144,51 +144,70 @@ def generat_user_dict_from_db():
 
     return
 
+def get_contents_from_file():
+    #保存文本到文件
+    content_file = open("d:\\content.txt", "r")
+    contentss = content_file.read()
+    content_file.close()
+    contents_list = contentss.split(',')
+    return contents_list
 
-if __name__ == '__main__':
+def test_spider():
+    clear_table('words_temp')  # 清除数据
+    operatMySQl = OperateMySQL()
 
-    #生成分词字典
-    if 1:
+    # 生成分词字典
+    if 0:
         generat_user_dict_into_db()
         generat_user_dict_from_db()
 
-    clear_table('words_temp')  # 清除数据
+
     jieba.load_userdict("d:\\userdict.txt")
 
-    starttime = datetime.datetime.now()
-    print('Start time is %s.' % (str(datetime.datetime.now())))
-    #获取文本内容
-    contents_list = get_content_from_url()
+    # 获取文本内容
+    #contents_list = get_content_from_url()
+    contents_list = get_contents_from_file()
 
-    #分词
+    # 分词
     words_list = []
     for text in contents_list:
         splits = jieba.cut(text)
         for word in splits:
             words_list.append(word)
 
-    #统计分词频率，计入数据库
+    # 统计分词频率，计入数据库
     counter = collections.Counter(words_list)
-    operatMySQl = OperateMySQL()
+    '''
     for collect in counter:
-        #print(collect,counter[collect])
+        # print(collect,counter[collect])
         sqli = "insert into words_temp values ('{0}',{1});"
-        sqlm = sqli.format(collect,counter[collect])
+        sqlm = sqli.format(collect, counter[collect])
         # print(sqlm)
         operatMySQl.execute(sqlm)
     operatMySQl.commit()
+    '''
 
-    #清洗无用数据
-    clear_table = ['的','股','是','了','我','有','也','点','在','按',
-                   ':','-',
-                   'NBSPWBR','LTLTSPANATITLEHREFHTTP','FONTASPANGTGT', 'SPAN','SPANSPANSPAN',
-                   'LTLTSPANSTRONGATITLEHREFHTTP','ASTRONGSPANGTGT','NBSPWBRAHREFHTTP' ]
-    for clear_item in clear_table:
+    #判断你是否为股票名称
+    for collect in counter:
+        record = get_stock_basic_by_name(operatMySQl, collect)
+        if record is not None and len(record) >0:
+            #print(collect, counter[collect])
+            sqli = "insert into words_temp values ('{0}',{1});"
+            sqlm = sqli.format(collect, counter[collect])
+            operatMySQl.execute(sqlm)
+    operatMySQl.commit()
+
+    # 清洗无用数据
+    clean_date_table = ['的', '股', '是', '了', '我', '有', '也', '点', '在', '按',
+                   ':', '-',
+                   'NBSPWBR', 'LTLTSPANATITLEHREFHTTP', 'FONTASPANGTGT', 'SPAN', 'SPANSPANSPAN',
+                   'LTLTSPANSTRONGATITLEHREFHTTP', 'ASTRONGSPANGTGT', 'NBSPWBRAHREFHTTP']
+    for clean_item in clean_date_table:
         sqli = "delete from words_temp  where words_content = '{0}';"
-        sqlm = sqli.format(clear_item)
+        sqlm = sqli.format(clean_item)
         operatMySQl.execute(sqlm)
     operatMySQl.commit()
-    #'''
+    # '''
     '''
     # Make the Pool of workers
     pool = ThreadPool(4)
@@ -212,6 +231,12 @@ if __name__ == '__main__':
     print("全模式:", "/".join(full_mode))
     print("搜索引擎模式:", "/".join(search_mode))
     '''
+
+if __name__ == '__main__':
+    starttime = datetime.datetime.now()
+    print('Start time is %s.' % (str(datetime.datetime.now())))
+
+    test_spider()
 
     # 程序结束时间 及 耗时
     timedelta = datetime.datetime.now() - starttime

@@ -102,8 +102,19 @@ def get_stock_detail(stock_index):
 
     return records
 
+
+########################################### 从数据库中获取股票详细数据 #################################################
+def get_stock_basic_by_name(operatMySQl, stock_index):
+    #operatMySQl = OperateMySQL()
+
+    sql = "SELECT *  FROM stock_basic where name ='{0}';"
+    sql = sql.format(stock_index)
+    operatMySQl.execute(sql)
+    records = operatMySQl.fetchall()
+    return records
+
 ########################################### 从数据库中获取股票基本数据 #################################################
-def get_stock_basic(stock_index):
+def get_stock_basic(operatMySQl, stock_index):
     operatMySQl = OperateMySQL()
 
     sql = "SELECT *  FROM stock_basic where stock_index ='{0}';"
