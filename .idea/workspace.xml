@@ -6,7 +6,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e30d405-2221-467c-ae45-fbb5b825fd1e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/operate_mysql.py" afterPath="$PROJECT_DIR$/util/operate_mysql.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/spider.py" afterPath="$PROJECT_DIR$/util/spider.py" />
     </list>
     <ignored path="stock.iws" />
@@ -60,8 +59,8 @@
       <file leaf-file-name="spider.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/util/spider.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="172" column="30" selection-start-line="172" selection-start-column="30" selection-end-line="172" selection-end-column="30" />
+            <state relative-caret-position="211">
+              <caret line="103" column="17" selection-start-line="103" selection-start-column="17" selection-end-line="103" selection-end-column="17" />
               <folding>
                 <element signature="e#1#10#0" expanded="true" />
               </folding>
@@ -174,8 +173,8 @@
         <option value="$PROJECT_DIR$/init_sql.py" />
         <option value="$PROJECT_DIR$/Test.py" />
         <option value="$PROJECT_DIR$/dig_stock.py" />
-        <option value="$PROJECT_DIR$/util/spider.py" />
         <option value="$PROJECT_DIR$/util/operate_mysql.py" />
+        <option value="$PROJECT_DIR$/util/spider.py" />
       </list>
     </option>
   </component>
@@ -593,7 +592,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="63" />
+      <option name="time" value="64" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -926,8 +925,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/util/spider.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="172" column="30" selection-start-line="172" selection-start-column="30" selection-end-line="172" selection-end-column="30" />
+        <state relative-caret-position="211">
+          <caret line="103" column="17" selection-start-line="103" selection-start-column="17" selection-end-line="103" selection-end-column="17" />
           <folding>
             <element signature="e#1#10#0" expanded="true" />
           </folding>

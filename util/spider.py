@@ -33,7 +33,18 @@ def parase_url_from_list(url_list):
     '''
     # urlmatch = urlre.match(websize)
     urllist = []
-    filehandle = urllib.request.urlopen(url_list)
+    retry_time = 3
+    for i in range(retry_time):
+        try:
+            filehandle = urllib.request.urlopen(url_list)
+            break
+        except:
+            if i < retry_time - 1:
+                continue
+        else:
+            print('多次尝试仍然失败!')
+            return
+
     content = filehandle.read()  # read
     content = content.decode('utf-8')  # python3
     hrefs = log_url_re.findall(content)
@@ -62,7 +73,18 @@ def parase_url_from_list(url_list):
     return urllist
 
 def parase_url_content(url):
-    filehandle = urllib.request.urlopen(url)
+    retry_time = 3
+    for i in range(retry_time):
+        try:
+            filehandle = urllib.request.urlopen(url)
+            break
+        except:
+            if i < retry_time - 1:
+                continue
+        else:
+            print('多次尝试仍然失败!')
+            return
+
     content = filehandle.read()  # read
     content = content.decode('utf-8') # python3
     content_list = content_re.findall(content)
@@ -165,8 +187,8 @@ def test_spider():
     jieba.load_userdict("d:\\userdict.txt")
 
     # 获取文本内容
-    #contents_list = get_content_from_url()
-    contents_list = get_contents_from_file()
+    contents_list = get_content_from_url()
+    #contents_list = get_contents_from_file()
 
     # 分词
     words_list = []
