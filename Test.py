@@ -16,7 +16,7 @@ import http.cookiejar
 import bs4
 import pandas as pd
 import numpy as np
-
+import pandas as pd
 
 def test_chelv():
 
@@ -106,6 +106,23 @@ def join_excel():
         #print(contents_list)
         #df = pd.read_excel(path+list_index, encoding_override="utf-8")
 
+def query_money():
+    operatMySQl = OperateMySQL()
+    conn, cur = operatMySQl.get_operater()
+
+    sqli ="SELECT * FROM  stock_deal where deal_type = '银行转证券' or deal_type = '证券转银行'"
+    df = pd.read_sql(sqli, conn)
+    #print()
+    print(sum(df['real_money']))
+    #for index, item in df:
+    #    print(index, item)
+    '''
+    operatMySQl.execute(sqli)
+    records = operatMySQl.fetchall()
+    for record in records:
+        print(record)
+    '''
+
 
 def test_login():
     result = urllib.request.urlopen.urlopen("http://222.200.122.171:7771/login.aspx")
@@ -140,6 +157,8 @@ if __name__ == '__main__':
     #generat_user_dict_from_db()
     #test_login()
     #test_chelv()
-    join_excel()
+
+    #join_excel()
+    query_money()
 
 
