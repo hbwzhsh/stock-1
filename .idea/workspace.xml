@@ -6,6 +6,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5e30d405-2221-467c-ae45-fbb5b825fd1e" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test.py" afterPath="$PROJECT_DIR$/Test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/back_test.py" afterPath="$PROJECT_DIR$/back_test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/script/mysql_script.txt" afterPath="$PROJECT_DIR$/script/mysql_script.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stock_rule/calculat_ma_macd_2_mysql.py" afterPath="$PROJECT_DIR$/stock_rule/calculat_ma_macd_2_mysql.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/stock_rule/covert_tdx_2_mysql.py" afterPath="$PROJECT_DIR$/stock_rule/covert_tdx_2_mysql.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/operate_mysql.py" afterPath="$PROJECT_DIR$/util/operate_mysql.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/util/spider.py" afterPath="$PROJECT_DIR$/util/spider.py" />
     </list>
     <ignored path="stock.iws" />
@@ -26,21 +33,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Test.py">
+      <file leaf-file-name="init_sql.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/init_sql.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1940">
-              <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+            <state relative-caret-position="354">
+              <caret line="98" column="45" selection-start-line="98" selection-start-column="45" selection-end-line="98" selection-end-column="45" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Test2.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Test2.py">
+      <file leaf-file-name="Test.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="40" column="18" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
+            <state relative-caret-position="437">
+              <caret line="23" column="7" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+              <folding>
+                <element signature="e#0#68#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="back_test_calculate_max_limit_rate.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stock_rule/back_test/back_test_calculate_max_limit_rate.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="456">
+              <caret line="42" column="68" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="68" />
               <folding />
             </state>
           </provider>
@@ -49,18 +68,18 @@
       <file leaf-file-name="process_job.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/process_job.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="80" column="27" selection-start-line="80" selection-start-column="12" selection-end-line="80" selection-end-column="27" />
+            <state relative-caret-position="411">
+              <caret line="32" column="46" selection-start-line="32" selection-start-column="46" selection-end-line="32" selection-end-column="46" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="spider.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="spider.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/spider.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="103" column="17" selection-start-line="103" selection-start-column="17" selection-end-line="103" selection-end-column="17" />
+            <state relative-caret-position="439">
+              <caret line="199" column="9" selection-start-line="199" selection-start-column="9" selection-end-line="199" selection-end-column="9" />
               <folding>
                 <element signature="e#1#10#0" expanded="true" />
               </folding>
@@ -71,28 +90,8 @@
       <file leaf-file-name="back_test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/back_test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="682">
-              <caret line="159" column="39" selection-start-line="159" selection-start-column="39" selection-end-line="159" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dig_stock.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dig_stock.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="359">
-              <caret line="33" column="26" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="26" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dig_stock_by_nigh_times.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/stock_rule/dig_stock_by_nigh_times.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="43" column="56" selection-start-line="43" selection-start-column="56" selection-end-line="43" selection-end-column="56" />
+            <state relative-caret-position="449">
+              <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -101,18 +100,18 @@
       <file leaf-file-name="covert_tdx_2_mysql.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/stock_rule/covert_tdx_2_mysql.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state relative-caret-position="354">
+              <caret line="42" column="43" selection-start-line="42" selection-start-column="43" selection-end-line="42" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="back_test_calculat_stock_max_lose.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/stock_rule/back_test/back_test_calculat_stock_max_lose.py">
+      <file leaf-file-name="dig_stock_by_macd_low_deviation.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/stock_rule/dig_stock_by_macd_low_deviation.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="414">
-              <caret line="33" column="29" selection-start-line="33" selection-start-column="29" selection-end-line="33" selection-end-column="29" />
+            <state relative-caret-position="662">
+              <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -121,8 +120,18 @@
       <file leaf-file-name="operate_mysql.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/util/operate_mysql.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="171">
-              <caret line="17" column="23" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
+            <state relative-caret-position="323">
+              <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="calculat_ma_macd_2_mysql.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/stock_rule/calculat_ma_macd_2_mysql.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="563">
+              <caret line="125" column="23" selection-start-line="125" selection-start-column="23" selection-end-line="125" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -163,18 +172,18 @@
         <option value="$PROJECT_DIR$/stock_rule/back_test/back_test_calculate_stock_rate_ma_basic.py" />
         <option value="$PROJECT_DIR$/stock_rule/back_test/back_test_calculate_max_limit_rate.py" />
         <option value="$PROJECT_DIR$/stock_rule/back_test/back_test_calculat_stock_max_lose.py" />
-        <option value="$PROJECT_DIR$/stock_rule/calculat_ma_macd_2_mysql.py" />
-        <option value="$PROJECT_DIR$/back_test.py" />
         <option value="$PROJECT_DIR$/stock_rule/dig_stock_by_macd_low_deviation.py" />
         <option value="$PROJECT_DIR$/stock_rule/dig_stock_by_nigh_times.py" />
         <option value="$PROJECT_DIR$/stock_rule/back_test/back_test_stock_rate_macd_deviation.py" />
+        <option value="$PROJECT_DIR$/init_sql.py" />
+        <option value="$PROJECT_DIR$/dig_stock.py" />
+        <option value="$PROJECT_DIR$/util/spider.py" />
+        <option value="$PROJECT_DIR$/Test.py" />
+        <option value="$PROJECT_DIR$/back_test.py" />
+        <option value="$PROJECT_DIR$/util/operate_mysql.py" />
         <option value="$PROJECT_DIR$/util/process_job.py" />
         <option value="$PROJECT_DIR$/stock_rule/covert_tdx_2_mysql.py" />
-        <option value="$PROJECT_DIR$/init_sql.py" />
-        <option value="$PROJECT_DIR$/Test.py" />
-        <option value="$PROJECT_DIR$/dig_stock.py" />
-        <option value="$PROJECT_DIR$/util/operate_mysql.py" />
-        <option value="$PROJECT_DIR$/util/spider.py" />
+        <option value="$PROJECT_DIR$/stock_rule/calculat_ma_macd_2_mysql.py" />
       </list>
     </option>
   </component>
@@ -287,7 +296,7 @@
       <recent name="D:\My\stock\stock_rule\back_test" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.spider">
+  <component name="RunManager" selected="Python.init_sql">
     <configuration default="false" name="dig_stock" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -301,40 +310,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="stock" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dig_stock.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="init_sql" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="stock" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/init_sql.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Test" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="stock" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -369,6 +344,40 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="stock" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/util/process_job.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="back_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="stock" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/back_test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="init_sql" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="stock" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/init_sql.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -509,18 +518,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.dig_stock" />
-      <item index="1" class="java.lang.String" itemvalue="Python.init_sql" />
-      <item index="2" class="java.lang.String" itemvalue="Python.Test" />
-      <item index="3" class="java.lang.String" itemvalue="Python.spider" />
-      <item index="4" class="java.lang.String" itemvalue="Python.process_job" />
+      <item index="1" class="java.lang.String" itemvalue="Python.spider" />
+      <item index="2" class="java.lang.String" itemvalue="Python.process_job" />
+      <item index="3" class="java.lang.String" itemvalue="Python.back_test" />
+      <item index="4" class="java.lang.String" itemvalue="Python.init_sql" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.spider" />
-        <item index="1" class="java.lang.String" itemvalue="Python.process_job" />
-        <item index="2" class="java.lang.String" itemvalue="Python.dig_stock" />
-        <item index="3" class="java.lang.String" itemvalue="Python.Test" />
-        <item index="4" class="java.lang.String" itemvalue="Python.init_sql" />
+        <item index="0" class="java.lang.String" itemvalue="Python.init_sql" />
+        <item index="1" class="java.lang.String" itemvalue="Python.back_test" />
+        <item index="2" class="java.lang.String" itemvalue="Python.spider" />
+        <item index="3" class="java.lang.String" itemvalue="Python.process_job" />
+        <item index="4" class="java.lang.String" itemvalue="Python.dig_stock" />
       </list>
     </recent_temporary>
   </component>
@@ -623,9 +632,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1487555112741" expanded="true" signature="4081:4176" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -683,9 +690,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1487555112741" expanded="true" signature="4081:4176" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -787,23 +792,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/stock_rule/back_test/back_test_low_nigh_times.py" />
     <entry file="file://$PROJECT_DIR$/stock_rule/back_test/back_test_calculate_stock_rate_ma_basic.py" />
-    <entry file="file://$PROJECT_DIR$/stock_rule/back_test/back_test_calculate_max_limit_rate.py" />
-    <entry file="file://$PROJECT_DIR$/stock_rule/dig_stock_by_macd_low_deviation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="491">
-          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/stock_rule/back_test/back_test_stock_rate_macd_deviation.py" />
-    <entry file="file://$PROJECT_DIR$/stock_rule/calculat_ma_macd_2_mysql.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/util/multi_processes.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
@@ -833,16 +822,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/init_sql.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1045">
-          <caret line="67" column="22" selection-start-line="67" selection-start-column="22" selection-end-line="67" selection-end-column="22" />
-          <folding>
-            <marker date="1487555112741" expanded="true" signature="4081:4176" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Test3.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1083">
@@ -855,22 +834,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
           <caret line="40" column="18" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1940">
-          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/back_test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="682">
-          <caret line="159" column="39" selection-start-line="159" selection-start-column="39" selection-end-line="159" selection-end-column="39" />
           <folding />
         </state>
       </provider>
@@ -891,14 +854,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util/process_job.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="80" column="27" selection-start-line="80" selection-start-column="12" selection-end-line="80" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/stock_rule/dig_stock_by_nigh_times.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="226">
@@ -907,29 +862,87 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/util/spider.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="439">
+          <caret line="199" column="9" selection-start-line="199" selection-start-column="9" selection-end-line="199" selection-end-column="9" />
+          <folding>
+            <element signature="e#1#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="23" column="7" selection-start-line="23" selection-start-column="7" selection-end-line="23" selection-end-column="7" />
+          <folding>
+            <element signature="e#0#68#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/back_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="449">
+          <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/util/operate_mysql.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="171">
-          <caret line="17" column="23" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
+        <state relative-caret-position="323">
+          <caret line="25" column="22" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stock_rule/dig_stock_by_macd_low_deviation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="662">
+          <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/init_sql.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="98" column="45" selection-start-line="98" selection-start-column="45" selection-end-line="98" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stock_rule/back_test/back_test_calculate_max_limit_rate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="456">
+          <caret line="42" column="68" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/util/process_job.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="32" column="46" selection-start-line="32" selection-start-column="46" selection-end-line="32" selection-end-column="46" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/stock_rule/covert_tdx_2_mysql.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+        <state relative-caret-position="354">
+          <caret line="42" column="43" selection-start-line="42" selection-start-column="43" selection-end-line="42" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/util/spider.py">
+    <entry file="file://$PROJECT_DIR$/stock_rule/calculat_ma_macd_2_mysql.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="103" column="17" selection-start-line="103" selection-start-column="17" selection-end-line="103" selection-end-column="17" />
-          <folding>
-            <element signature="e#1#10#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="563">
+          <caret line="125" column="23" selection-start-line="125" selection-start-column="23" selection-end-line="125" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>

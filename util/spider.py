@@ -187,8 +187,8 @@ def test_spider():
     jieba.load_userdict("d:\\userdict.txt")
 
     # 获取文本内容
-    contents_list = get_content_from_url()
-    #contents_list = get_contents_from_file()
+    #contents_list = get_content_from_url()
+    contents_list = get_contents_from_file()
 
     # 分词
     words_list = []

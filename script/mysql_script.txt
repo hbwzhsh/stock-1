@@ -251,3 +251,12 @@ create table stock_index_ma_rate
  max_lose_rate_sell_date date,
  PRIMARY KEY(stock_index,m_ma, start_date,end_date) 
 );
+
+
+SELECT stock_index,name,industry, launch_date, deal_days , 
+limit_up_times as '涨停次数' ,
+limit_up_times_rate as '涨停率', 
+outstanding as '流通股本' ,
+totals as '总股本'
+FROM stock.stock_temp_rate natural join stock.stock_basic;
+

@@ -80,26 +80,27 @@ def analyze_result():
 ##################################### 启动多进程任务转换通达信数据并插入数据库 #########################################
 def process_calculate_stock(start_date, end_date, from_table, to_table):
 
-    clear_table('stock_win_rate')  # 清除数据
-    # 九转回测
-    Back_Test_Low_Nigh_Times(start_date, end_date, from_table, to_table).run_multi_process_job()
+    if 0 :
+        clear_table('stock_win_rate')  # 清除数据
+        # 九转回测
+        Back_Test_Low_Nigh_Times(start_date, end_date, from_table, to_table).run_multi_process_job()
 
-    # MACD 底背离回测
-    Back_Test_Stock_Rate_Macd_Deviation(start_date, end_date, from_table, to_table).run_multi_process_job()
+        # MACD 底背离回测
+        Back_Test_Stock_Rate_Macd_Deviation(start_date, end_date, from_table, to_table).run_multi_process_job()
 
-    # 计算MACD金叉买入，macd死叉卖出收益率
-    Back_Test_Stock_Rate_Macd_Basic(start_date, end_date, from_table, to_table).run_multi_process_job()
+        # 计算MACD金叉买入，macd死叉卖出收益率
+        Back_Test_Stock_Rate_Macd_Basic(start_date, end_date, from_table, to_table).run_multi_process_job()
 
-    # 计算大于MA周期买入，小于MA周期卖出
-    Back_Test_Calculate_Stock_Rate_MA_Basic(start_date, end_date, from_table, to_table, buy_ma =2, sell_ma=2).run_multi_process_job()
+        # 计算大于MA周期买入，小于MA周期卖出
+        Back_Test_Calculate_Stock_Rate_MA_Basic(start_date, end_date, from_table, to_table, buy_ma =2, sell_ma=2).run_multi_process_job()
 
+    if 1:
+        clear_table('stock_temp_rate')  #清除数据
+        # 计算一段时间内最大跌幅
+        #Back_Test_Calculat_Stock_Max_Lose(start_date, end_date, from_table, 'stock_temp_rate').run_multi_process_job()
 
-    clear_table('stock_temp_rate')  #清除数据
-    # 计算一段时间内最大跌幅
-    Back_Test_Calculat_Stock_Max_Lose(start_date, end_date, from_table, 'stock_temp_rate').run_multi_process_job()
-
-    #计算一段时间内的涨停率
-    Back_Test_Calculat_Max_Limit_Rate(start_date, end_date, from_table, 'stock_temp_rate').run_multi_process_job()
+        #计算一段时间内的涨停率
+        Back_Test_Calculat_Max_Limit_Rate(start_date, end_date, from_table, 'stock_temp_rate').run_multi_process_job()
 
 
 ################################################## 初始化绘制窗口 ###################################################
