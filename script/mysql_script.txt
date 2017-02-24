@@ -260,3 +260,29 @@ outstanding as '流通股本' ,
 totals as '总股本'
 FROM stock.stock_temp_rate natural join stock.stock_basic;
 
+DROP TABLE stock_deal;
+create table stock_deal
+(
+ stock_index varchar(6),
+ stock_name  varchar(10),
+ deal_type   varchar(10),
+ deal_volume float,
+ deal_price  float,
+ deal_money  float,
+ stock_holding int,
+ real_money  float,
+ fees        float, 
+ stamp_duty  float,
+ other_fees  float,
+ balance     float,
+ contract_number varchar(20),
+ shareholders_account varchar(20), 
+ settlement_date  date, 
+ net_Commission   float, 
+ transfer_fees    float, 
+ settlement_costs float, 
+ currency varchar(10)
+);
+ 
+证券代码,证券名称,操作,成交数量,成交均价,成交金额,
+股票余额,发生金额,手续费,印花税,其他杂费,资金余额,合同编号,股东帐户,交收日期,净佣金,过户费,结算费, 币种

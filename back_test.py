@@ -97,10 +97,10 @@ def process_calculate_stock(start_date, end_date, from_table, to_table):
     if 1:
         clear_table('stock_temp_rate')  #清除数据
         # 计算一段时间内最大跌幅
-        #Back_Test_Calculat_Stock_Max_Lose(start_date, end_date, from_table, 'stock_temp_rate').run_multi_process_job()
+        Back_Test_Calculat_Stock_Max_Lose('2016-5-1', end_date, from_table, 'stock_temp_rate').run_multi_process_job()
 
         #计算一段时间内的涨停率
-        Back_Test_Calculat_Max_Limit_Rate(start_date, end_date, from_table, 'stock_temp_rate').run_multi_process_job()
+        #Back_Test_Calculat_Max_Limit_Rate(start_date, end_date, from_table, 'stock_temp_rate').run_multi_process_job()
 
 
 ################################################## 初始化绘制窗口 ###################################################

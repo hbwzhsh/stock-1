@@ -14,6 +14,9 @@ import urllib
 import http.cookiejar
 #import cookielib
 import bs4
+import pandas as pd
+import numpy as np
+
 
 def test_chelv():
 
@@ -67,58 +70,42 @@ def test_chelv():
     # MACD 底背离回测
     # back_test_stock_rate_macd_deviation.run_multi_process_job()
 
-def generat_user_dict_into_db():
-    #更新股票字典数据库从股票基本数据
-    clear_table('stock_dict')  # 清除数据
+def join_excel():
+    clear_table('stock_deal')
     operatMySQl = OperateMySQL()
-    operatMySQl.execute("SELECT *  FROM stock_basic")
-    records = operatMySQl.fetchall()
-    for row in records:
-        stock_index    = row[0]  #股票代码
-        stock_name     = row[1]  #股票名称
-        stock_industry = row[2]  #股票行业
-        stock_concept  = row[23] #股票概念
-        sqli = "insert into stock_dict values ('{0}');"
-        sqlm = sqli.format(stock_index)
-        operatMySQl.execute(sqlm)
-        sqlm = sqli.format(stock_name)
-        operatMySQl.execute(sqlm)
-        sqlm = sqli.format(stock_industry)
-        operatMySQl.execute(sqlm)
-        concept_list= stock_concept.split(',')
-        for concept in concept_list:
-            sqlm = sqli.format(concept)
-            operatMySQl.execute(sqlm)
+    path = u"D:\\s_data\\"
+    s_data_list = os.listdir(path)
+    for list_index in s_data_list:
+        content_file = open(path+list_index, "r")
+        contentss = content_file.read()
+        content_file.close()
+        contents_list = contentss.split('\n')
+        index = 0
+        for content_item in contents_list:
+            if index ==0 :
+                index = 1
+                continue
+
+
+            sqli = "insert into stock_deal values ('{0[0]}','{0[1]}','{0[2]}',{0[3]},{0[4]},{0[5]},{0[6]},{0[7]},{0[8]}," \
+                        "{0[9]},{0[10]},{0[11]},'{0[12]}','{0[13]}',\"{0[14]}\",{0[15]},{0[16]},{0[17]},'{0[18]}');"
+
+            #sqli = "insert into stock_deal values ('{0[0]}','{0[1]}', '{0[20[}',{0[3]},{0[4]},{0[5]},{0[6]},{0[7]},{0[8]}," \
+            #       "{0[9]},{0[10]},{0[11]},'{0[12]}','{0[13]}',\"{0[14]}\",{0[15]},{0[16]},{0[17]},'{0[18]}');"
+            line_list = content_item.split(',')
+            if len(line_list[0])>0 and int(line_list[0])>0 and int(line_list[0])<4000 :
+                line_list[0] = '%06d' %int(line_list[0])
+
+            if(len(line_list)>10):
+                #print(line_list)
+                sqlm = sqli.format(line_list)
+                print(sqlm)
+                operatMySQl.execute(sqlm)
 
     operatMySQl.commit()
+        #print(contents_list)
+        #df = pd.read_excel(path+list_index, encoding_override="utf-8")
 
-    # 更新股票字典数据库从自定义字典文件
-    file_object = open('d:\\stock_dict.txt', 'r')
-    content = file_object.read() #.decode('utf-8')
-    file_object.close()
-    stock_list = content.split('\n')
-    for stock_dict in stock_list:
-        #print(stock_dict.strip())
-        sqli = "insert into stock_dict values ('{0}');"
-        sqlm = sqli.format(stock_dict.strip())
-        operatMySQl.execute(sqlm)
-    operatMySQl.commit()
-
-    return
-
-def generat_user_dict_from_db():
-    operatMySQl = OperateMySQL()
-    file_object = codecs.open('d:\\userdict.txt', 'w', "utf-8")
-
-    operatMySQl.execute("SELECT *  FROM stock_dict")
-    records = operatMySQl.fetchall()
-    for row in records:
-        stock_dict = row[0] + ' 1 nr\r\n'
-        file_object.write(stock_dict)
-
-    file_object.close()
-
-    return
 
 def test_login():
     result = urllib.request.urlopen.urlopen("http://222.200.122.171:7771/login.aspx")
@@ -151,7 +138,8 @@ def test_login():
 if __name__ == '__main__':
     #generat_user_dict_into_db()
     #generat_user_dict_from_db()
-    test_login()
+    #test_login()
     #test_chelv()
+    join_excel()
 
 
