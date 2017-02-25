@@ -72,32 +72,25 @@ def query_reverse_repo():
 
     print("共计：%s笔， 共" %(len(df_sh)+len(df_sz)+len(df_ttl)),sum(df_sh['real_money'])+sum(df_sz['real_money'])+sum(df_ttl['real_money']))
 
-def query_stock():
+#查询手续费 印花税
+def query_fees_stamp_duty():
     operatMySQl = OperateMySQL()
     conn, cur = operatMySQl.get_operater()
-    sqlsh = "SELECT * FROM  stock_deal where stock_index > '600000' and stock_index < '700000'"
-    df_sh = pd.read_sql(sqlsh, conn)
-    print("沪市：{0}笔， 共：{1}, 手续费：{2}，印花税：{3}".format(len(df_sh),
-                                                   my_round(sum(df_sh['real_money'])),my_round(sum(df_sh['fees'])),
-                                                   my_round(sum(df_sh['stamp_duty']))))
 
-    sqlsz = "SELECT * FROM  stock_deal where stock_index > '000000' and stock_index < '100000'"
-    df_sz = pd.read_sql(sqlsz, conn)
-    print("深市：{0}笔， 共：{1}, 手续费：{2}，印花税：{3}".format(len(df_sz),
-                                                   my_round(sum(df_sz['real_money'])), my_round(sum(df_sz['fees'])),
-                                                   my_round(sum(df_sz['stamp_duty']))))
+    sql_list = []
+    sql_list.append(("沪市", "SELECT * FROM  stock_deal where stock_index > '600000' and stock_index < '700000'"))
+    sql_list.append(("深市", "SELECT * FROM  stock_deal where stock_index > '000000' and stock_index < '100000'"))
+    sql_list.append(("创业", "SELECT * FROM  stock_deal where stock_index > '300000' and stock_index < '400000'"))
+    sql_list.append(("基金", "SELECT * FROM  stock_deal where stock_index > '150000' and stock_index < '200000'"))
+    sql_list.append(("合计", "SELECT * FROM  stock_deal where "
+    "((stock_index > '300000' and stock_index < '700000') or (stock_index > '150000' and stock_index < '200000') or (stock_index > '000000' and stock_index < '100000'))"))
 
+    for sql in sql_list:
+        df = pd.read_sql(sql[1], conn)
+        print("{0}：{1}笔， 共：{2}, 手续费：{3}，印花税：{4}".format(sql[0], len(df),
+                                                       my_round(sum(df['real_money'])), my_round(sum(df['fees'])),
+                                                       my_round(sum(df['stamp_duty']))))
 
-    sqlcy = "SELECT * FROM  stock_deal where stock_index > '300000' and stock_index < '400000'"
-    df_cy = pd.read_sql(sqlcy, conn)
-    print("创业：{0}笔， 共：{1}, 手续费：{2}，印花税：{3}".format(len(df_cy),
-                                                   my_round(sum(df_cy['real_money'])), my_round(sum(df_cy['fees'])),
-                                                   my_round(sum(df_cy['stamp_duty']))))
-
-    print("合计：{0}笔， 共：{1}, 手续费：{2}，印花税：{3}".format(len(df_sh)+len(df_sz)+len(df_cy),
-                                                   my_round(sum(df_sh['real_money'])+sum(df_sz['real_money'])+sum(df_cy['real_money'])),
-                                                   my_round(sum(df_sh['fees'])+sum(df_sz['fees'])+sum(df_cy['fees'])),
-                                                   my_round(sum(df_sh['stamp_duty']) + sum(df_sz['stamp_duty']) + sum(df_cy['stamp_duty']))))
 
 if __name__ == '__main__':
 
@@ -105,5 +98,5 @@ if __name__ == '__main__':
     #init_sql_by_excel()
     #query_amount_transferred_into_account()
     #query_reverse_repo()
-    query_stock()
+    query_fees_stamp_duty()
 
