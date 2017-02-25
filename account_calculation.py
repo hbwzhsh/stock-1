@@ -2,9 +2,11 @@
 from util.operate_mysql import *
 from urllib.request import *
 from util.common import *
-import pandas as pd
 import numpy as np
 import pandas as pd
+import os
+from sqlalchemy import create_engine
+
 
 def init_sql_by_excel():
     clear_table('stock_deal')
@@ -58,7 +60,17 @@ def query_amount_transferred_into_account():
 def query_reverse_repo():
     operatMySQl = OperateMySQL()
     conn, cur = operatMySQl.get_operater()
-    sqlsh = "SELECT * FROM  stock_deal where stock_index = '204001'"
+    sql_list = []
+    sql_list.append(("沪市1日","SELECT * FROM  stock_deal where stock_index = '204001'"))
+    sql_list.append(("深市1日","SELECT * FROM  stock_deal where stock_index = '131810'"))
+    sql_list.append(("天天1日","SELECT * FROM  stock_deal where stock_index = '205001'"))
+    sql_list.append(("共计", "SELECT * FROM  stock_deal where stock_index = '204001' or stock_index = '131810' or stock_index = '205001'"))
+    for sql in sql_list:
+        df = pd.read_sql(sql[1], conn)
+        print("{0}：{1}笔， 共：{2}".format(sql[0], len(df),my_round(sum(df['real_money']))))
+
+    '''
+    sqlsh =
     df_sh = pd.read_sql(sqlsh, conn)
     print("沪市1日：%s笔， 共" % len(df_sh), sum(df_sh['real_money']))
 
@@ -71,7 +83,7 @@ def query_reverse_repo():
     print("天天1日：%s笔， 共" % len(df_ttl), sum(df_ttl['real_money']))
 
     print("共计：%s笔， 共" %(len(df_sh)+len(df_sz)+len(df_ttl)),sum(df_sh['real_money'])+sum(df_sz['real_money'])+sum(df_ttl['real_money']))
-
+    '''
 #查询手续费 印花税
 def query_fees_stamp_duty():
     operatMySQl = OperateMySQL()
@@ -87,16 +99,63 @@ def query_fees_stamp_duty():
 
     for sql in sql_list:
         df = pd.read_sql(sql[1], conn)
-        print("{0}：{1}笔， 共：{2}, 手续费：{3}，印花税：{4}".format(sql[0], len(df),
+        print("{0}：{1}笔， 共：{2}, 手续费：{3}，印花税：{4}, 成交额：{5}".format(sql[0], len(df),
                                                        my_round(sum(df['real_money'])), my_round(sum(df['fees'])),
-                                                       my_round(sum(df['stamp_duty']))))
+                                                       my_round(sum(df['stamp_duty'])), my_round(sum(df['deal_money']))))
+
+def query_stock():
+    operatMySQl = OperateMySQL()
+    conn, cur = operatMySQl.get_operater()
+
+    sql = "SELECT * FROM  stock_deal where " \
+    "((stock_index > '300000' and stock_index < '700000') or " \
+    "(stock_index > '150000' and stock_index < '200000') or " \
+    "(stock_index > '000000' and stock_index < '100000')) group by stock_index"
+
+    sql_read_row = "SELECT * FROM stock_deal where stock_index = {0};"
+    sqli = "insert into stock_earnings values ({0},{1},'{2}','{3}');"
+    df = pd.read_sql(sql, conn)
+    print(len(df))
+    df_result = pd.DataFrame(columns=['len','stock_index', 'stock_name', 'real_money' ])
+    sum_r = 0.0
+    for index,row in df.iterrows():
+        sql_formated = sql_read_row.format(row['stock_index'])
+        #print(sql_row)
+        df_line = pd.read_sql(sql_formated, conn)
+        #print(df_line)
+        row_append = pd.DataFrame([dict(len=len(df_line),stock_index=row['stock_index'], stock_name =row['stock_name'], real_money=my_round(sum(df_line['real_money'])))])
+        df_result = df_result.append(row_append, ignore_index=True)
+        sum_r = sum_r + my_round(sum(df_line['real_money']))  #累计盈利
+
+        sql_formated =sqli.format(len(df_line),my_round(sum(df_line['real_money'])),row['stock_index'],row['stock_name'])
+        #print(row['stock_index'],row['stock_name'],my_round(sum(df_line['real_money'])), len(df_line))
+        operatMySQl.execute(sql_formated)
+    operatMySQl.commit()
+    df_result=df_result.sort_values(by='real_money')
+    #df_result=df_result.reset_index()
+
+    #df_result.to_csv('d:\\result.csv')
+    print(df_result)
+    print(sum_r)
 
 
+def query_total_deal_money():
+    operatMySQl = OperateMySQL()
+    conn, cur = operatMySQl.get_operater()
+
+    sql = "SELECT * FROM  stock_deal where " \
+    "((stock_index > '300000' and stock_index < '700000') or " \
+    "(stock_index > '150000' and stock_index < '200000') or " \
+    "(stock_index > '000000' and stock_index < '100000'))"
+
+    df = pd.read_sql(sql, conn)
+    #print(df['stock_index'],df['stock_name'])
+    print(len(df))
 if __name__ == '__main__':
-
-
     #init_sql_by_excel()
     #query_amount_transferred_into_account()
     #query_reverse_repo()
-    query_fees_stamp_duty()
+    #query_fees_stamp_duty()
+    #query_total_deal_money()
+    query_stock()
 

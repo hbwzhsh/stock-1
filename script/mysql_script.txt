@@ -286,3 +286,12 @@ create table stock_deal
  
 证券代码,证券名称,操作,成交数量,成交均价,成交金额,
 股票余额,发生金额,手续费,印花税,其他杂费,资金余额,合同编号,股东帐户,交收日期,净佣金,过户费,结算费, 币种
+
+DROP TABLE stock_earnings;
+create table stock_earnings
+(
+ len  int,
+ real_money  float,
+ stock_index varchar(6),
+ stock_name  varchar(10)
+);
