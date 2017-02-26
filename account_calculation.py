@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import os
 from sqlalchemy import create_engine
-
+import codecs
 
 def init_sql_by_excel():
     clear_table('stock_deal')
@@ -139,6 +139,47 @@ def query_stock():
     print(sum_r)
 
 
+def query_earnings():
+    operatMySQl = OperateMySQL()
+    conn, cur = operatMySQl.get_operater()
+    from_tabl = "SELECT stock_index,len,real_money,stock_name,name,industry,area,pe,outstanding,totals,reservedPerShare FROM  stock_earnings natural join stock_basic where "
+    sh_stock = "(stock_index > '600000' and stock_index < '700000')"
+    sz_stock = "(stock_index > '000000' and stock_index < '100000')"
+    cy_stock = "(stock_index > '300000' and stock_index < '400000')"
+    jj_stock = "(stock_index > '150000' and stock_index < '200000')"
+    money_greater = "real_money>0"
+    money_lower  =  "real_money<0"
+    order_by = "order by real_money"
+    sql_list = []
+    sql_list.append(("沪市", "盈利", "{0} {1} and {2} {3} desc".format(from_tabl,sh_stock,money_greater,order_by)))
+    sql_list.append(("深市", "盈利", "{0} {1} and {2} {3} desc".format(from_tabl,sz_stock,money_greater,order_by)))
+    sql_list.append(("创业", "盈利", "{0} {1} and {2} {3} desc".format(from_tabl,cy_stock,money_greater,order_by)))
+    sql_list.append(("基金", "盈利", "{0} {1} and {2} {3} desc".format(from_tabl,jj_stock,money_greater,order_by)))
+
+    sql_list.append(("沪市", "亏损", "{0} {1} and {2} {3} asc".format(from_tabl,sh_stock,money_lower,order_by)))
+    sql_list.append(("深市", "亏损", "{0} {1} and {2} {3} asc".format(from_tabl,sz_stock,money_lower,order_by)))
+    sql_list.append(("创业", "亏损", "{0} {1} and {2} {3} asc".format(from_tabl,cy_stock,money_lower,order_by)))
+    sql_list.append(("基金", "亏损", "{0} {1} and {2} {3} asc".format(from_tabl,jj_stock,money_lower,order_by)))
+
+    sql_list.append(("沪市", "盈亏", "{0} {1} {2}".format(from_tabl,sh_stock,order_by)))
+    sql_list.append(("深市", "盈亏", "{0} {1} {2}".format(from_tabl,sz_stock,order_by)))
+    sql_list.append(("创业", "盈亏", "{0} {1} {2}".format(from_tabl,cy_stock,order_by)))
+    sql_list.append(("基金", "盈亏", "{0} {1} {2}".format(from_tabl,jj_stock,order_by)))
+
+    sql_list.append(("合计", "盈亏", "SELECT * FROM  stock_earnings "))
+    #"((stock_index > '300000' and stock_index < '700000') or (stock_index > '150000' and stock_index < '200000') or (stock_index > '000000' and stock_index < '100000'))"))
+
+    file_object = codecs.open('d:\\result.txt', 'w', "utf-8")
+    for sql in sql_list:
+        df = pd.read_sql(sql[2], conn)
+        reslut_str = "{0},{1},{2}只, {3}笔, {4} \r\n".format(sql[0], sql[1], len(df), sum(df['len']), my_round(sum(df['real_money'])))
+        file_object.write(reslut_str)
+        #print(reslut_str)
+        #print(df.head(10))
+        #file_object.write(df.head(10).describe())
+        df.head(10).to_csv('d:\\result.txt', index=False)
+    file_object.close()
+
 def query_total_deal_money():
     operatMySQl = OperateMySQL()
     conn, cur = operatMySQl.get_operater()
@@ -157,5 +198,6 @@ if __name__ == '__main__':
     #query_reverse_repo()
     #query_fees_stamp_duty()
     #query_total_deal_money()
-    query_stock()
+    #query_stock()
+    query_earnings()
 
