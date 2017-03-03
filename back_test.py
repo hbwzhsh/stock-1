@@ -28,6 +28,7 @@ def init_stock_list_for_convert():
     #初始化创业板股票代码 列表
     for i in range(1, 600):
         stock_list.append("SZ#30%04d.txt" %i)
+
     #初始化主板股票代码 列表
     for i in range(1, 2000):
         stock_list.append("SH#60%04d.txt" %i)
