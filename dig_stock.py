@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     for (start_date, end_date) in zip(start_date_list, end_date_list):
         # 挖掘九转出低九
-        Dig_Stock_By_Nigh_Times(start_date, end_date, from_table, to_table)
+        Dig_Stock_By_Nigh_Times(start_date, end_date, from_table, to_table).run_multi_process_job()
 
         # 挖掘MACD底背离
         #Dig_Stock_By_Macd_Low_Deviation(start_date, end_date, from_table, to_table).run_multi_process_job()

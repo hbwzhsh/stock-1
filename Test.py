@@ -17,6 +17,7 @@ import bs4
 import pandas as pd
 import numpy as np
 import pandas as pd
+import requests
 
 def test_chelv():
 
@@ -70,65 +71,16 @@ def test_chelv():
     # MACD 底背离回测
     # back_test_stock_rate_macd_deviation.run_multi_process_job()
 
-def join_excel():
-    clear_table('stock_deal')
-    operatMySQl = OperateMySQL()
-    path = u"D:\\s_data\\"
-    s_data_list = os.listdir(path)
-    for list_index in s_data_list:
-        content_file = open(path+list_index, "r")
-        contentss = content_file.read()
-        content_file.close()
-        contents_list = contentss.split('\n')
-        index = 0
-        for content_item in contents_list:
-            if index ==0 :
-                index = 1
-                continue
-
-
-            sqli = "insert into stock_deal values ('{0[0]}','{0[1]}','{0[2]}',{0[3]},{0[4]},{0[5]},{0[6]},{0[7]},{0[8]}," \
-                        "{0[9]},{0[10]},{0[11]},'{0[12]}','{0[13]}',\"{0[14]}\",{0[15]},{0[16]},{0[17]},'{0[18]}');"
-
-            #sqli = "insert into stock_deal values ('{0[0]}','{0[1]}', '{0[20[}',{0[3]},{0[4]},{0[5]},{0[6]},{0[7]},{0[8]}," \
-            #       "{0[9]},{0[10]},{0[11]},'{0[12]}','{0[13]}',\"{0[14]}\",{0[15]},{0[16]},{0[17]},'{0[18]}');"
-            line_list = content_item.split(',')
-            if len(line_list[0])>0 and int(line_list[0])>0 and int(line_list[0])<4000 :
-                line_list[0] = '%06d' %int(line_list[0])
-
-            if(len(line_list)>10):
-                #print(line_list)
-                sqlm = sqli.format(line_list)
-                print(sqlm)
-                operatMySQl.execute(sqlm)
-
-    operatMySQl.commit()
-        #print(contents_list)
-        #df = pd.read_excel(path+list_index, encoding_override="utf-8")
-
-def query_money():
-    operatMySQl = OperateMySQL()
-    conn, cur = operatMySQl.get_operater()
-
-    sqli ="SELECT * FROM  stock_deal where deal_type = '银行转证券' or deal_type = '证券转银行'"
-    df = pd.read_sql(sqli, conn)
-    #print()
-    print(sum(df['real_money']))
-    #for index, item in df:
-    #    print(index, item)
-    '''
-    operatMySQl.execute(sqli)
-    records = operatMySQl.fetchall()
-    for record in records:
-        print(record)
-    '''
-
-
 def test_login():
-    result = urllib.request.urlopen.urlopen("http://222.200.122.171:7771/login.aspx")
+    result = urllib.request.urlopen("http://www.scsjgjj.com/")
     soup = bs4.BeautifulSoup(result, "html.parser")
 
-    logindiv = soup.find("form", attrs={"name": "aspnetForm"})
+    logindiv = soup.find(attrs={'class','person_text'})
+    p1 = soup.find(attrs={'id','ctl00_ContentPlaceHolder1_QueryFund1_txtUserName'})
+
+    #logindiv.text = '90388886'
+    print( p1['ctl00_ContentPlaceHolder1_QueryFund1_txtUserName'])
+    #logindiv = soup.find("text", attrs={"name": "p1_search"})
     Allinput = logindiv.findAll("input")
     inputData = {}
     for oneinput in Allinput:
@@ -137,20 +89,54 @@ def test_login():
                 inputData[oneinput['name']] = oneinput['value']
             else:
                 inputData[oneinput['name']] = ""
-    inputData['ctl00$ContentPlaceHolder1$txtPas_Lib'] = '*****'
-    inputData['ctl00$ContentPlaceHolder1$txtUsername_Lib'] = '*******'
+    inputData['ctl00_ContentPlaceHolder1_QueryFund1_txtUserName'] = '90388886'
+    #inputData['ctl00$ContentPlaceHolder1$txtUsername_Lib'] = '*******'
+    print(logindiv.text)
 
     filename = 'cookie.txt'
     # 声明一个MozillaCookieJar对象实例来保存cookie，之后写入文件
     cookie = http.cookiejar.CookieJar() #cookielib.MozillaCookieJar(filename)
     opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cookie))
     postdata = urllib.urlencode(inputData)
-    result2 = opener.open("http://222.200.122.171:7771/login.aspx", postdata)
+    result2 = opener.open("http://www.scsjgjj.com/", postdata)
     cookie.save(ignore_discard=True, ignore_expires=True)
     # 登录后 要访问的url
     bookUrl = "http://222.200.122.171:7771/user/userinfo.aspx"
     result = opener.open(bookUrl)
     print(result.read())
+
+def test_my_login():
+    sessions = requests.session()
+
+    login_data = {'BaseRate' : '1',
+                'MaxMoney' : '70',
+                'Ratel' : '2.75',
+                'Ratel10' : '3.25',
+                '__VIEWSTATEGENERATOR' : '90059987',
+                'ctl00$ContentPlaceHolder1$QueryFund1$btnPost' : '提交',
+                'ctl00$ContentPlaceHolder1$QueryFund1$txtUserName': '90388886',
+                'ctl00$ContentPlaceHolder1$QueryFund1$txtPassword': '90388886',
+                'ctl00$ContentPlaceHolder1$QueryFund1$txtCode': 'ABCD',
+                'ctl00$ContentPlaceHolder1$Toupiao$diaocha' : 'RadioButton1',
+                'discount1' : '30',
+                'rdoType' : '1',
+                'selRateYear' : '30'
+                }
+    header = {
+        'Accept' : 'text / html, application / xhtml + xml, application / xml;q = 0.9, * / *;q = 0.8',
+        'Accept - Encoding' : 'gzip, deflate',
+        'Accept - Language' : 'zh - CN, zh;q = 0.8, en - US;q = 0.5, en;q = 0.3',
+
+        'Host': 'www.scsjgjj.com',
+        'Referer': 'http://www.scsjgjj.com/Index.aspx',
+        'Connection': 'Keep-Alive',
+        'Upgrade - Insecure - Requests' : '1',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:51.0) Gecko/20100101 Firefox/51.0'
+    }
+    # post登录
+    r = sessions.post('http://www.scsjgjj.com/', data=login_data,headers=header)
+    soup = bs4.BeautifulSoup(r.text)
+    print(r)
 
 if __name__ == '__main__':
     #generat_user_dict_into_db()
@@ -159,6 +145,6 @@ if __name__ == '__main__':
     #test_chelv()
 
     #join_excel()
-    query_money()
+    test_my_login()
 
 
